@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:padding="3sp"
+    android:gravity="center_horizontal">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/team_logo_view"
+            android:layout_width="60sp"
+            android:layout_height="60sp"
+            android:src="@drawable/ic_action_important"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="equipo1"
+            android:paddingRight="5sp"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00-00"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5sp"
+            android:text="equipo2"
+            android:layout_gravity="center_vertical"/>
+        <ImageView
+            android:id="@+id/team2_logo_view"
+            android:layout_width="60sp"
+            android:layout_height="60sp"
+            android:src="@drawable/ic_action_important"/>
+    </LinearLayout>
+</RelativeLayout>
