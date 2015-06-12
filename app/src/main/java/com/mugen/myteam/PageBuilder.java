@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
+import com.mugen.myteam.DB.AlmacenSQLite;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,11 +35,13 @@ public class PageBuilder {
     }
     public View getPage(Fragment activity,ViewGroup container,int position){
         View view=null;
+        AlmacenSQLite almacenSQL=new AlmacenSQLite(activity.getActivity());
+        Log.d("BaseDatos",almacenSQL.getDatabaseName());
         switch (position) {
             case 0:
                 view = activity.getActivity().getLayoutInflater().inflate(R.layout.pos_table, container, false);
                 ListView listaEquipos=(ListView)activity.getActivity().findViewById(R.id.lista_equipos);
-                new descargaEquipos().execute();
+               // new descargaEquipos().execute();
               //  TeamListAdapter listAdapter=new TeamListAdapter(activity,);
 
                 break;
@@ -88,6 +91,7 @@ public class PageBuilder {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
                         }
                     }
                     //_responseHandler.receiveSuccess(new RestResponse(chisimbaResponse.data,true));
