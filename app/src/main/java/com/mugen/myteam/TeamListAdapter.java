@@ -7,12 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 /**
  * Created by ORTEGON on 22/05/2015.
  */
 public class TeamListAdapter extends ArrayAdapter {
-    public TeamListAdapter(Object[] objects,Activity context) {
+    List teams;
+    public TeamListAdapter(List objects,Activity context) {
         super(context, R.layout.pos_table, objects);
+        teams=objects;
     }
     @Override
     public View getView(int position,View view, ViewGroup parent){
@@ -20,6 +24,7 @@ public class TeamListAdapter extends ArrayAdapter {
             view=((Activity)parent.getContext()).getLayoutInflater().inflate(R.layout.tabla_item,null);
         }
         TextView nombreEquipo=(TextView)view.findViewById(R.id.teamname_item);
+        nombreEquipo.setText(teams.get(position).toString());
         return view;
     }
 

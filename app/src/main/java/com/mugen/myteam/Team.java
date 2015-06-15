@@ -12,17 +12,17 @@ public class Team {
         return logo;
     }
 
-    public String getStadium() {
-        return stadium;
+    public String getCity() {
+        return city;
     }
 
     private String name;
     private String logo;
-    private String stadium;
-    public Team(String name,String logo,String stadium){
+    private String city;
+    public Team(String name,String logo,String city){
         this.name=name;
         this.logo=logo;
-        this.stadium=stadium;
+        this.city=city;
     }
 
 }

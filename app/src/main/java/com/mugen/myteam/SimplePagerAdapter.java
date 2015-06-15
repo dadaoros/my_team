@@ -56,7 +56,6 @@ public class SimplePagerAdapter extends PagerAdapter {
         // Inflate a new layout from our resources
         PageBuilder factory = PageBuilder.getFactory();
         View view=factory.getPage(f,container,position);
-        container.addView(view);
         return view;
     }
 

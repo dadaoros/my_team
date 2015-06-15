@@ -1,11 +1,13 @@
 package com.mugen.myteam;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -35,14 +37,19 @@ public class PageBuilder {
     }
     public View getPage(Fragment activity,ViewGroup container,int position){
         View view=null;
-        AlmacenSQLite almacenSQL=new AlmacenSQLite(activity.getActivity());
-        Log.d("BaseDatos",almacenSQL.getDatabaseName());
+        AlmacenSQLite.getAlmacenInstance(activity.getActivity());
         switch (position) {
             case 0:
                 view = activity.getActivity().getLayoutInflater().inflate(R.layout.pos_table, container, false);
+                container.addView(view);
+                RestController restController= new RestController();
+
+
                 ListView listaEquipos=(ListView)activity.getActivity().findViewById(R.id.lista_equipos);
-               // new descargaEquipos().execute();
-              //  TeamListAdapter listAdapter=new TeamListAdapter(activity,);
+                List teams=new DataBaseManager().getTeams(activity.getActivity());
+                teams.add("Millonarios");
+                TeamListAdapter listAdapter=new TeamListAdapter(teams,activity.getActivity());
+                listaEquipos.setAdapter(listAdapter);
 
                 break;
             case 1:
@@ -54,61 +61,5 @@ public class PageBuilder {
         }
         return view;
     }
-    public class descargaEquipos extends AsyncTask<Void,Void,List<Team>>{
 
-
-
-        @Override
-        protected List<Team> doInBackground(Void... params) {
-            String url="http://192.168.0.6/teams/";
-            AsyncHttpClient client=new AsyncHttpClient(8000);
-            //TODO solucionar llenado de lista
-
-
-            RequestHandle handle = client.get(url,new AsyncHttpResponseHandler(){
-                @Override
-                public void onSuccess(String response){
-                    List<Team> list = null;
-                    JSONArray array=null;
-                    Log.d("logro", response);
-                    try {
-                        array=new JSONArray(response);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    if(array!=null){
-                        list =new ArrayList<Team>();
-                        for(int i=0;i<array.length();i++) {
-                            JSONObject obj=null;
-                            try {
-                                obj= (JSONObject) array.get(i);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                list.add(new Team(obj.getString("name"), obj.getString("logo"), obj.getString("stadium")));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-                    //_responseHandler.receiveSuccess(new RestResponse(chisimbaResponse.data,true));
-                }
-                @Override
-                public void onFailure(int statusCode, Throwable error, String content){
-                    Log.d("equivo", error.toString());
-                }
-
-            });
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(List<Team> teams ){
-
-        }
-    }
 }
