@@ -1,9 +1,6 @@
 package com.mugen.myteam;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +40,7 @@ public class PageBuilder {
 
                 ListView listaEquipos = (ListView) activity.getActivity().findViewById(R.id.lista_equipos);
 
-                Object lock=new Object();
+                Lock lock =new Lock();
                 //Hilo que Intenta Obtener informacion de la API
                 ApiManager apiManager = new ApiManagerShadow();
                 apiManager.setHandler(new DownloadTeamsHandler(lock));
@@ -72,13 +69,13 @@ public class PageBuilder {
     public class ListHandler extends AsyncTask<Void,Void,List>{
 
         View view;
-        private Object lock;
+        private Lock lock;
 
         protected ListHandler(View v){
             super();
             view=v;
         }
-        public void setLock(Object lock) { this.lock = lock;}
+        public void setLock(Lock lock) { this.lock = lock;}
         @Override
         protected void onPreExecute(){
         }
@@ -91,14 +88,8 @@ public class PageBuilder {
 
         @Override
         protected List doInBackground(Void... params) {
-            synchronized (lock) {
-                try {
-                    lock.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            Log.i("ConsumerState","free");
+            lock.LoadFromDB();
+            Log.i("DBConsumerState","free");
             List teams=new DataBaseManager().getTeams(view.getContext());
             return teams;
         }

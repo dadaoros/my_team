@@ -1,12 +1,9 @@
 package com.mugen.myteam.ApiManager;
 
-import android.os.Handler;
-import android.os.Message;
-import android.preference.PreferenceActivity;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.mugen.myteam.PageBuilder;
+import com.mugen.myteam.Lock;
 import com.mugen.myteam.Team;
 
 import org.apache.http.Header;
@@ -22,10 +19,10 @@ import java.util.List;
  * Created by ORTEGON on 17/06/2015.
  */
 public class DownloadTeamsHandler extends AsyncHttpResponseHandler implements ApiHandler {
-    Object lock;
-    public DownloadTeamsHandler(Object lock) {
+    Lock lock;
+    public DownloadTeamsHandler(Lock lock) {
         super();
-        this.lock=lock;
+        this.lock = lock;
     }
 
     @Override
@@ -36,7 +33,6 @@ public class DownloadTeamsHandler extends AsyncHttpResponseHandler implements Ap
             String response=null;
             try {
                 response=new String(bytes, "UTF-8");
-                Log.d("logro",response);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -71,14 +67,12 @@ public class DownloadTeamsHandler extends AsyncHttpResponseHandler implements Ap
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
         {
-            Log.d("equivo", error.toString());
+            Log.d("RESTError", error.toString());
         }
         @Override
         public void onFinish(){
-            synchronized (lock) {
-                lock.notify();
-            }
-            Log.d("final","final" );
+            lock.LoadFromApi();
+            Log.d("REST","final" );
         }
 
 }
