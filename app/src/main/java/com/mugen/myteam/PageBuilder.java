@@ -1,7 +1,9 @@
 package com.mugen.myteam;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -9,16 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestHandle;
+import com.mugen.myteam.ApiManager.ApiManager;
+import com.mugen.myteam.ApiManager.ApiManagerShadow;
+import com.mugen.myteam.ApiManager.DownloadTeamsHandler;
 import com.mugen.myteam.DB.AlmacenSQLite;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,31 +32,76 @@ public class PageBuilder {
     private PageBuilder(){
 
     }
-    public View getPage(Fragment activity,ViewGroup container,int position){
-        View view=null;
+
+    public View getPage(Fragment activity, ViewGroup container, int position) {
+        View view = null;
         AlmacenSQLite.getAlmacenInstance(activity.getActivity());
         switch (position) {
             case 0:
                 view = activity.getActivity().getLayoutInflater().inflate(R.layout.pos_table, container, false);
                 container.addView(view);
-                RestController restController= new RestController();
 
+                ListView listaEquipos = (ListView) activity.getActivity().findViewById(R.id.lista_equipos);
 
-                ListView listaEquipos=(ListView)activity.getActivity().findViewById(R.id.lista_equipos);
-                List teams=new DataBaseManager().getTeams(activity.getActivity());
-                teams.add("Millonarios");
-                TeamListAdapter listAdapter=new TeamListAdapter(teams,activity.getActivity());
-                listaEquipos.setAdapter(listAdapter);
+                Object lock=new Object();
+                //Hilo que Intenta Obtener informacion de la API
+                ApiManager apiManager = new ApiManagerShadow();
+                apiManager.setHandler(new DownloadTeamsHandler(lock));
+                //Hilo que intenta obtener y actualizar lista desde la base de datos
+                ListHandler h = new ListHandler(listaEquipos);
+                h.setLock(lock);
+
+                h.execute();
+                apiManager.execute(ApiManager.URLTEAMS);
+
 
                 break;
             case 1:
-                view = activity.getActivity().getLayoutInflater().inflate(R.layout.calendar,container, false);
+                view = activity.getActivity().getLayoutInflater().inflate(R.layout.calendar, container, false);
+                container.addView(view);
 
-                //loadFragment(((MainActivity)f.getActivity()).getReposFragment());
+                //new ApiManager().execute();
+                TextView tPrueba = (TextView) activity.getActivity().findViewById(R.id.textView);
+                tPrueba.setText("TPrueba");
+
                 break;
             // Return the View
         }
         return view;
     }
+    public class ListHandler extends AsyncTask<Void,Void,List>{
+
+        View view;
+        private Object lock;
+
+        protected ListHandler(View v){
+            super();
+            view=v;
+        }
+        public void setLock(Object lock) { this.lock = lock;}
+        @Override
+        protected void onPreExecute(){
+        }
+        @Override
+        protected void onPostExecute(List teams){
+            teams.add("Millonarios");
+            TeamListAdapter listAdapter=new TeamListAdapter(teams,view.getContext());
+            ((ListView)view).setAdapter(listAdapter);
+        }
+
+        @Override
+        protected List doInBackground(Void... params) {
+            synchronized (lock) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            Log.i("ConsumerState","free");
+            List teams=new DataBaseManager().getTeams(view.getContext());
+            return teams;
+        }
+    };
 
 }
