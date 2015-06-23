@@ -54,8 +54,8 @@ public class SimplePagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         // Inflate a new layout from our resources
-        PageBuilder factory = PageBuilder.getFactory();
-        View view=factory.getPage(f,container,position);
+        PageBuilder builder = PageBuilder.getBuilder();
+        View view=builder.getPage(f,container,position);
         return view;
     }
 
@@ -64,19 +64,7 @@ public class SimplePagerAdapter extends PagerAdapter {
 
         container.removeView((View) object);
         f.onDestroy();
-    }/*
-    private void loadFragment(Fragment fragment) {
-        FragmentManager fManager = f.getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction;
-        try {
-            transaction = fManager.beginTransaction();
-            transaction.replace(R.id.container, fragment);
-            transaction.commit();
-        }catch(IllegalStateException e){
-            Log.e("error",e.getMessage());
-        }
     }
-*/
 
 
 }

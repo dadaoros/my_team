@@ -1,15 +1,22 @@
 package com.mugen.myteam;
 
+import android.app.ProgressDialog;
+
 /**
  * Created by ORTEGON on 18/06/2015.
  */
 public class Lock {
     private boolean ready;
-    Lock(){
+    private ProgressDialog progressDialog;
+    Lock(ProgressDialog progressDialog){
+        this.progressDialog=progressDialog;
+        progressDialog.setTitle("Obteniendo datos del Servidor");
+        progressDialog.show();
         ready=false;
     }
-    public synchronized void LoadFromApi(){
+    public synchronized void LoadedFromApi(){
         ready=true;
+        progressDialog.dismiss();
         notify();
     }
     public synchronized void LoadFromDB(){

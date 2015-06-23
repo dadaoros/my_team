@@ -8,6 +8,7 @@ import android.provider.BaseColumns;
 public class TeamsDataSource {
     public static final String TEAMS_TABLENAME="Teams";
     public static final String MATCHES_TABLENAME="Matches";
+    public static final String UPDATES_TABLENAME="Updates";
 
     public static final String INT_TYPE="integer";
     public static final String STRING_TYPE="text";
@@ -31,7 +32,7 @@ public class TeamsDataSource {
         public static final String MATCH_STADIUM="match_stadium";
     }
     public static final String CREATE_TABLE_TEAMS="CREATE TABLE "+TEAMS_TABLENAME+OPEN+
-            Teams._ID + " INTEGER PRIMARY KEY autoincrement," +
+            Teams._ID + " INTEGER PRIMARY KEY," +
             Teams.TEAMNAME+" "+STRING_TYPE+" not null,"+
             Teams.TEAMCITY+" "+STRING_TYPE+" not null,"+
             Teams.TEAM_IMAGE_URI+" "+STRING_TYPE+" not null,"+
@@ -45,4 +46,6 @@ public class TeamsDataSource {
             Match.MATCH_DATE_TIME+" "+NUMERIC_TYPE+" not null,"+
             Match.PLAYED+" "+NUMERIC_TYPE+" not null,"+
             Match.MATCH_STADIUM+" "+STRING_TYPE+CLOSE;
+    public static final String CREATE_TABLE_UPDATES="CREATE TABLE "+UPDATES_TABLENAME+OPEN+
+            Teams._ID + " INTEGER PRIMARY KEY" + CLOSE;
 }

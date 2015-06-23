@@ -1,5 +1,6 @@
 package com.mugen.myteam;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class PageBuilder {
     private static PageBuilder factory=null;
-    public static PageBuilder getFactory(){
+    public static PageBuilder getBuilder(){
         if(factory==null){
             factory=new PageBuilder();
         }
@@ -35,15 +36,17 @@ public class PageBuilder {
         AlmacenSQLite.getAlmacenInstance(activity.getActivity());
         switch (position) {
             case 0:
+
                 view = activity.getActivity().getLayoutInflater().inflate(R.layout.pos_table, container, false);
                 container.addView(view);
 
                 ListView listaEquipos = (ListView) activity.getActivity().findViewById(R.id.lista_equipos);
+                final ProgressDialog progressDialog = new MillosProgressDialog(activity.getActivity());
 
-                Lock lock =new Lock();
+                Lock lock =new Lock(progressDialog);
                 //Hilo que Intenta Obtener informacion de la API
                 ApiManager apiManager = new ApiManagerShadow();
-                apiManager.setHandler(new DownloadTeamsHandler(lock));
+                apiManager.setHandler(new DownloadTeamsHandler(lock,activity.getActivity()));
                 //Hilo que intenta obtener y actualizar lista desde la base de datos
                 ListHandler h = new ListHandler(listaEquipos);
                 h.setLock(lock);
@@ -81,7 +84,6 @@ public class PageBuilder {
         }
         @Override
         protected void onPostExecute(List teams){
-            teams.add("Millonarios");
             TeamListAdapter listAdapter=new TeamListAdapter(teams,view.getContext());
             ((ListView)view).setAdapter(listAdapter);
         }

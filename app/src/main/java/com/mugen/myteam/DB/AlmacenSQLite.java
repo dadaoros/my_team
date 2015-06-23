@@ -19,6 +19,7 @@ public class AlmacenSQLite extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TeamsDataSource.CREATE_TABLE_TEAMS);
         db.execSQL(TeamsDataSource.CREATE_TABLE_MATCHES);
+        db.execSQL(TeamsDataSource.CREATE_TABLE_UPDATES);
     }
 
     @Override

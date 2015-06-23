@@ -3,11 +3,13 @@ package com.mugen.myteam;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DB.TeamsDataSource;
+import com.mugen.myteam.Models.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,17 +61,22 @@ public class DataBaseManager {
             // Create a new map of values, where column names are the keys
             for(int i=0;i<list.size();i++) {
                 ContentValues values = new ContentValues();
+                values.put(TeamsDataSource.Teams._ID, ((Team)list.get(i)).getID());
                 values.put(TeamsDataSource.Teams.TEAMNAME, ((Team)list.get(i)).getName());
-                values.put(TeamsDataSource.Teams.TEAM_IMAGE_URI, ((Team)list.get(i)).getLogo());
-                values.put(TeamsDataSource.Teams.TEAMCITY, ((Team)list.get(i)).getCity());
+                values.put(TeamsDataSource.Teams.TEAM_IMAGE_URI, "");
+                values.put(TeamsDataSource.Teams.TEAMCITY, "");
                 values.put(TeamsDataSource.Teams.TEAMSTADIUM, ((Team)list.get(i)).getName());
 
                 // Insert the new row, returning the primary key value of the new row
                 long newRowId;
-                newRowId = db.insert(
-                        TeamsDataSource.TEAMS_TABLENAME,
-                        null,
-                        values);
+                try {
+                    newRowId = db.insertOrThrow(
+                            TeamsDataSource.TEAMS_TABLENAME,
+                            null,
+                            values);
+                }catch (SQLiteConstraintException e){
+                    Log.w("Agrega Registro",e.getMessage());
+                }
             }
             return true;
         }else

@@ -1,19 +1,7 @@
 package com.mugen.myteam.ApiManager;
 
-import android.os.AsyncTask;
-import android.util.Log;
-
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestHandle;
-import com.mugen.myteam.Team;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ORTEGON on 17/06/2015.
@@ -30,7 +18,7 @@ public class ApiManager {
     }
 
     public void execute(String URL) {
-        String url="http://192.168.0.6/teams/";
+        String url="http://200.118.215.195/teams/";
         AsyncHttpClient client=new AsyncHttpClient(8000);
 
         client.get(url, handler);

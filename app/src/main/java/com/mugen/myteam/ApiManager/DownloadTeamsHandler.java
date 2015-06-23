@@ -1,10 +1,14 @@
 package com.mugen.myteam.ApiManager;
 
+import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.mugen.myteam.DataBaseManager;
 import com.mugen.myteam.Lock;
-import com.mugen.myteam.Team;
+import com.mugen.myteam.Models.Team;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -20,10 +24,18 @@ import java.util.List;
  */
 public class DownloadTeamsHandler extends AsyncHttpResponseHandler implements ApiHandler {
     Lock lock;
-    public DownloadTeamsHandler(Lock lock) {
+
+    public void setCtx(Context ctx) {
+        this.ctx = ctx;
+    }
+
+    Context ctx;
+    public DownloadTeamsHandler(Lock lock, FragmentActivity activity) {
         super();
         this.lock = lock;
+        this.ctx = activity;
     }
+
 
     @Override
         public void onSuccess(int statusCode,org.apache.http.Header[] headers,byte[] bytes){
@@ -54,24 +66,26 @@ public class DownloadTeamsHandler extends AsyncHttpResponseHandler implements Ap
                         e.printStackTrace();
                     }
                     try {
-                        list.add(new Team(obj.getString("name"), null, null));
+                        list.add(new Team(obj.getInt("id"),obj.getString("name"), null, null));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 }
             }
+        new DataBaseManager().putTeams(list);
 
 
         }
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
         {
+            Toast.makeText(ctx,"No se pudo establecer conexión con el Servidor",Toast.LENGTH_LONG).show();
             Log.d("RESTError", error.toString());
         }
         @Override
         public void onFinish(){
-            lock.LoadFromApi();
+            lock.LoadedFromApi();
             Log.d("REST","final" );
         }
 
