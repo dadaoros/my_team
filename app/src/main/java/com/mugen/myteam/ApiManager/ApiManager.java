@@ -12,16 +12,17 @@ public class ApiManager {
     }
 
     private AsyncHttpResponseHandler handler;
-    public static final String URLTEAMS= "http://127.0.0.1:8000/teams/.json ";
+    public static final String URL_TEAMS = "http://192.168.0.8/teams/";
+    public static final String URL_DUMP="http://192.168.0.15:8000/database/schema/";
     public void setHandler(AsyncHttpResponseHandler handler) {
         this.handler=handler;
     }
 
     public void execute(String URL) {
-        String url="http://200.118.215.195/teams/";
+        //String url="http://200.118.215.195/teams/";
         AsyncHttpClient client=new AsyncHttpClient(8000);
 
-        client.get(url, handler);
+        client.get(URL_TEAMS, handler);
 
     }
 }

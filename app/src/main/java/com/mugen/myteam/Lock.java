@@ -8,6 +8,10 @@ import android.app.ProgressDialog;
 public class Lock {
     private boolean ready;
     private ProgressDialog progressDialog;
+    Lock(){
+        progressDialog=null;
+        ready=false;
+    }
     Lock(ProgressDialog progressDialog){
         this.progressDialog=progressDialog;
         progressDialog.setTitle("Obteniendo datos del Servidor");
@@ -16,7 +20,8 @@ public class Lock {
     }
     public synchronized void LoadedFromApi(){
         ready=true;
-        progressDialog.dismiss();
+        if(progressDialog!=null)
+            progressDialog.dismiss();
         notify();
     }
     public synchronized void LoadFromDB(){

@@ -1,5 +1,6 @@
 package com.mugen.myteam;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,14 +9,20 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity {
+    public static final int LOADCODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent i = new Intent(this,LoaderActivity.class);
+        startActivityForResult(i, 0);
+
         initComponents(savedInstanceState);
+
     }
-    private void initComponents(Bundle savedInstanceState){
+
+    private void initComponents(Bundle savedInstanceState) {
         SlidingTabsBasicFragment fragment;
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -46,5 +53,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==LOADCODE){
+
+        }
+
     }
 }

@@ -44,6 +44,8 @@ public class PageBuilder {
                 final ProgressDialog progressDialog = new MillosProgressDialog(activity.getActivity());
 
                 Lock lock =new Lock(progressDialog);
+                Log.d("Estado","Obtuvo seguro 2");
+
                 //Hilo que Intenta Obtener informacion de la API
                 ApiManager apiManager = new ApiManagerShadow();
                 apiManager.setHandler(new DownloadTeamsHandler(lock,activity.getActivity()));
@@ -52,7 +54,7 @@ public class PageBuilder {
                 h.setLock(lock);
 
                 h.execute();
-                apiManager.execute(ApiManager.URLTEAMS);
+                apiManager.execute(ApiManager.URL_TEAMS);
 
 
                 break;
@@ -91,7 +93,7 @@ public class PageBuilder {
         @Override
         protected List doInBackground(Void... params) {
             lock.LoadFromDB();
-            Log.i("DBConsumerState","free");
+            Log.i("DBConsumerState", "free");
             List teams=new DataBaseManager().getTeams(view.getContext());
             return teams;
         }

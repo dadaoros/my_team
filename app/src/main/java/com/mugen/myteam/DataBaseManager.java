@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
+import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.mugen.myteam.DB.AlmacenSQLite;
@@ -34,25 +36,32 @@ public class DataBaseManager {
 // How you want the results sorted in the resulting Cursor
         String sortOrder =
                 TeamsDataSource.Teams.TEAMNAME + " DESC";
-
-        Cursor c = db.query(
-                TeamsDataSource.TEAMS_TABLENAME,  // The table to query
-                projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
-        );
-        if (c.moveToFirst() == false){
-            Log.d("cursor","vacio");
-        }
+        Cursor c = null;
         List teams=new ArrayList();
-        int nameColumn = c.getColumnIndex(TeamsDataSource.Teams.TEAMNAME);
+        try {
+            c=db.query(
+                    TeamsDataSource.TEAMS_TABLENAME,  // The table to query
+                    projection,                               // The columns to return
+                    null,                                // The columns for the WHERE clause
+                    null,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    sortOrder                                 // The sort order
+            );
 
-        for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
-            teams.add( c.getString(nameColumn) );
+            if (c.moveToFirst() == false){
+                Log.d("cursor","vacio");
+            }
+
+            int nameColumn = c.getColumnIndex(TeamsDataSource.Teams.TEAMNAME);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
+                teams.add( c.getString(nameColumn) );
+            }
+        }catch (SQLiteException e){
+
         }
+
         return teams;
     }
     public boolean putTeams(List<Team> list){
@@ -81,5 +90,8 @@ public class DataBaseManager {
             return true;
         }else
             return false;
+    }
+    public boolean createDatabase(){
+        return true;
     }
 }

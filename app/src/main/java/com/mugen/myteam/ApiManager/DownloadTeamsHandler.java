@@ -74,19 +74,18 @@ public class DownloadTeamsHandler extends AsyncHttpResponseHandler implements Ap
                 }
             }
         new DataBaseManager().putTeams(list);
-
+        Log.i("REST", "success");
 
         }
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
         {
             Toast.makeText(ctx,"No se pudo establecer conexión con el Servidor",Toast.LENGTH_LONG).show();
-            Log.d("RESTError", error.toString());
+            Log.d("RESTError", statusCode+" "+error.toString());
         }
         @Override
         public void onFinish(){
             lock.LoadedFromApi();
-            Log.d("REST","final" );
         }
 
 }

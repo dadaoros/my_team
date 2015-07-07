@@ -9,17 +9,17 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class AlmacenSQLite extends SQLiteOpenHelper {
     private static AlmacenSQLite almacen;
-    private static final int DB_VERSION=1;
-    private static final String DB_NAME="My_Team";
+    public static final int DB_VERSION=1;
+    public static final String DB_NAME="My_Team";
     private AlmacenSQLite(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(TeamsDataSource.CREATE_TABLE_TEAMS);
-        db.execSQL(TeamsDataSource.CREATE_TABLE_MATCHES);
-        db.execSQL(TeamsDataSource.CREATE_TABLE_UPDATES);
+        db.execSQL(TeamsDataSource.CREATE_TABLE_VERSIONS);
+        //db.execSQL(TeamsDataSource.CREATE_TABLE_TEAMS);
+        //db.execSQL(TeamsDataSource.CREATE_TABLE_MATCHES);
     }
 
     @Override
@@ -38,4 +38,5 @@ public class AlmacenSQLite extends SQLiteOpenHelper {
     public void setContext(Context c){
 
     }
+
 }

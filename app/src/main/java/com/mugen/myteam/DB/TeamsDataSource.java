@@ -6,20 +6,26 @@ import android.provider.BaseColumns;
  * Created by ORTEGON on 27/05/2015.
  */
 public class TeamsDataSource {
-    public static final String TEAMS_TABLENAME="Teams";
+    public static final String TEAMS_TABLENAME="championships_team";
     public static final String MATCHES_TABLENAME="Matches";
-    public static final String UPDATES_TABLENAME="Updates";
+    public static final String VERSIONS_TABLENAME="Versions";
 
     public static final String INT_TYPE="integer";
     public static final String STRING_TYPE="text";
     public static final String NUMERIC_TYPE="numeric";
     public static final String OPEN="(";
     public static final String CLOSE=");";
-    public static abstract class Teams implements BaseColumns{
-        public static final String TEAMNAME="team_name";
-        public static final String TEAM_IMAGE_URI="team_image_uri";
-        public static final String TEAMCITY="team_city";
-        public static final String TEAMSTADIUM="team_stadium";
+
+    public static abstract class Versions implements BaseColumns{
+        public static final String STATE="state";
+    }
+
+    public static abstract class Teams{
+        public static final String _ID="id";
+        public static final String TEAMNAME="name";
+        public static final String TEAM_IMAGE_URI="logo";
+        public static final String TEAMCITY="city_id";
+        public static final String TEAMSTADIUM="stadium";
 
     }
     public static abstract class Match implements BaseColumns{
@@ -46,6 +52,7 @@ public class TeamsDataSource {
             Match.MATCH_DATE_TIME+" "+NUMERIC_TYPE+" not null,"+
             Match.PLAYED+" "+NUMERIC_TYPE+" not null,"+
             Match.MATCH_STADIUM+" "+STRING_TYPE+CLOSE;
-    public static final String CREATE_TABLE_UPDATES="CREATE TABLE "+UPDATES_TABLENAME+OPEN+
-            Teams._ID + " INTEGER PRIMARY KEY" + CLOSE;
+    public static final String CREATE_TABLE_VERSIONS="CREATE TABLE "+VERSIONS_TABLENAME+OPEN+
+            Versions._ID + " INTEGER PRIMARY KEY,"+
+            Versions.STATE+" "+NUMERIC_TYPE+ CLOSE;
 }
