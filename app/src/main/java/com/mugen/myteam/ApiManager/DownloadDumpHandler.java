@@ -3,6 +3,9 @@ package com.mugen.myteam.ApiManager;
 import android.app.Activity;
 import android.content.Context;
 import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -50,10 +53,16 @@ public class DownloadDumpHandler extends AsyncHttpResponseHandler implements Api
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        if(!new DataBaseManager().isInitialized(ctx)) {
+            try {
+                DatabaseUtils.createDbFromSqlStatements(ctx, AlmacenSQLite.DB_NAME, AlmacenSQLite.DB_VERSION, response);
+                SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(ctx).getWritableDatabase();
+                db.execSQL("INSERT INTO " + TeamsDataSource.VERSIONS_TABLENAME + " VALUES (0,1)");
+            } catch (SQLiteException e) {
+                Log.e("Error", e.toString());
 
-        DatabaseUtils.createDbFromSqlStatements(ctx, AlmacenSQLite.DB_NAME,AlmacenSQLite.DB_VERSION,response);
-        Log.i("REST", "success");
-
+            }
+        }
     }
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)

@@ -3,6 +3,7 @@ package com.mugen.myteam;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -61,6 +62,7 @@ public class DataBaseManager {
         }catch (SQLiteException e){
 
         }
+        db.close();
 
         return teams;
     }
@@ -74,7 +76,6 @@ public class DataBaseManager {
                 values.put(TeamsDataSource.Teams.TEAMNAME, ((Team)list.get(i)).getName());
                 values.put(TeamsDataSource.Teams.TEAM_IMAGE_URI, "");
                 values.put(TeamsDataSource.Teams.TEAMCITY, "");
-                values.put(TeamsDataSource.Teams.TEAMSTADIUM, ((Team)list.get(i)).getName());
 
                 // Insert the new row, returning the primary key value of the new row
                 long newRowId;
@@ -87,11 +88,16 @@ public class DataBaseManager {
                     Log.w("Agrega Registro",e.getMessage());
                 }
             }
+            db.close();
             return true;
         }else
             return false;
     }
-    public boolean createDatabase(){
-        return true;
+    public boolean isInitialized(Context ctx){
+        SQLiteDatabase db =AlmacenSQLite.getAlmacenInstance(ctx).getReadableDatabase();
+        if(DatabaseUtils.queryNumEntries(db,TeamsDataSource.VERSIONS_TABLENAME)>0)
+            return true;
+        else
+            return false;
     }
 }

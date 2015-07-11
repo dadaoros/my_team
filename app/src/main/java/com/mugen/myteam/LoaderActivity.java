@@ -30,9 +30,11 @@ public class LoaderActivity extends Activity {
                 }catch(InterruptedException ex){
 
                 }
+                //pausa la ejecución de esta secuencia de codigo hasta que se libere el seguro
                 lock.LoadFromDB();
+                //TODO: cambiar el estado aqui
                 Log.d("Estado", "conexionFinalizada");
-                
+
                 Intent result = new Intent();
                 setResult(Activity.RESULT_OK, result);
                 finish();
@@ -44,9 +46,8 @@ public class LoaderActivity extends Activity {
 
     private void iniciarCarga(Lock lock) {
         Log.d("Estado", "Obtuvo seguro");
-        ApiManager apiManager = new ApiManagerShadow();
+        ApiManager apiManager = new ApiManager();
         apiManager.setHandler(new DownloadDumpHandler(lock, this));
-
         apiManager.execute(ApiManager.URL_DUMP);
     }
 
