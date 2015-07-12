@@ -1,7 +1,11 @@
 package com.mugen.myteam;
 
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,7 +14,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
     public static final int LOADCODE = 0;
-
+    SwipeRefreshLayout refreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +25,19 @@ public class MainActivity extends ActionBarActivity {
         initComponents(savedInstanceState);
 
     }
-
+    @Override
+    protected void onResume(){
+        super.onResume();
+        refreshLayout= (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initiateRefresh();
+            }
+        });
+    }
     private void initComponents(Bundle savedInstanceState) {
+
         SlidingTabsBasicFragment fragment;
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -30,6 +45,32 @@ public class MainActivity extends ActionBarActivity {
             transaction.replace(R.id.content_fragment, fragment);
             transaction.commit();
         }
+    }
+
+    private void initiateRefresh() {
+
+        new AsyncTask<Void, Void, String>(){
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                refreshLayout.setRefreshing(false);
+            }
+
+
+
+        }.execute();
+
+
+
     }
 
 
