@@ -23,13 +23,17 @@ public class LoaderActivity extends Activity {
         setContentView(R.layout.activity_loader);
         final Lock lock =new Lock();
         iniciarCarga(lock);
+
+        //Hilo que busca regresar a la actividad Principal
         new Thread(){
             public void run(){
+                /*
                 try{
-                    sleep(5000);
+                    sleep(3000);
                 }catch(InterruptedException ex){
 
                 }
+                */
                 //pausa la ejecución de esta secuencia de codigo hasta que se libere el seguro
                 lock.LoadFromDB();
                 //TODO: cambiar el estado aqui
@@ -49,6 +53,8 @@ public class LoaderActivity extends Activity {
         ApiManager apiManager = new ApiManager();
         apiManager.setHandler(new DownloadDumpHandler(lock, this));
         apiManager.execute(ApiManager.URL_DUMP);
+
+        //TODO: hilo toast
     }
 
     @Override

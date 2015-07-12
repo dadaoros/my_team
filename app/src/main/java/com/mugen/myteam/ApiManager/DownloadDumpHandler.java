@@ -54,13 +54,18 @@ public class DownloadDumpHandler extends AsyncHttpResponseHandler implements Api
             e.printStackTrace();
         }
         if(!new DataBaseManager().isInitialized(ctx)) {
+
             try {
                 DatabaseUtils.createDbFromSqlStatements(ctx, AlmacenSQLite.DB_NAME, AlmacenSQLite.DB_VERSION, response);
-                SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(ctx).getWritableDatabase();
-                db.execSQL("INSERT INTO " + TeamsDataSource.VERSIONS_TABLENAME + " VALUES (0,1)");
             } catch (SQLiteException e) {
                 Log.e("Error", e.toString());
 
+            }
+            try {
+                SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(ctx).getWritableDatabase();
+                db.execSQL("INSERT INTO " + TeamsDataSource.VERSIONS_TABLENAME + " VALUES (0,1)");
+            }catch (SQLiteException e){
+                Log.e("Error 2", e.toString());
             }
         }
     }
