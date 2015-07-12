@@ -30,6 +30,8 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
+import com.mugen.myteam.R;
+
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
  * the user's scroll progress.
@@ -67,10 +69,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
     }
 
     private static final int TITLE_OFFSET_DIPS = 24;
-    private static final int TAB_VIEW_PADDING_VERTICAL_DIPS = 16;
-    private static final int TAB_VIEW_PADDING_DIPS = 50;
+    private static final int TAB_VIEW_PADDING_DIPS = 16;
     private static final int TAB_VIEW_TEXT_SIZE_SP = 12;
-    //TODO: Cambiar tamaño de las tabs dependiendo del tamaño total
 
     private int mTitleOffset;
 
@@ -191,16 +191,15 @@ public class SlidingTabLayout extends HorizontalScrollView {
             textView.setAllCaps(true);
         }
 
-        int vPadding = (int) (TAB_VIEW_PADDING_VERTICAL_DIPS * getResources().getDisplayMetrics().density);
         int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
-        textView.setPadding(padding, vPadding, padding, vPadding);
+        textView.setPadding(padding, padding, padding, padding);
 
         return textView;
     }
 
     private void populateTabStrip() {
         final PagerAdapter adapter = mViewPager.getAdapter();
-        final OnClickListener tabClickListener = new TabClickListener();
+        final View.OnClickListener tabClickListener = new TabClickListener();
 
         for (int i = 0; i < adapter.getCount(); i++) {
             View tabView = null;
@@ -220,10 +219,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             if (tabTitleView == null && TextView.class.isInstance(tabView)) {
                 tabTitleView = (TextView) tabView;
             }
-
             tabTitleView.setText(adapter.getPageTitle(i));
-            tabView.setPadding(40, 0, 0, 0);
-            //TODO: centrar iconos
             tabView.setOnClickListener(tabClickListener);
 
             mTabStrip.addView(tabView);

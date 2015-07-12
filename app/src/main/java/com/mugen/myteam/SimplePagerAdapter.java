@@ -8,6 +8,7 @@ import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -15,8 +16,7 @@ import android.view.ViewGroup;
  */
 public class SimplePagerAdapter extends PagerAdapter {
     Fragment f;
-    private int[] imageResId={R.drawable.ic_menu_white_36dp,R.drawable.ic_action_person,R.mipmap.ic_launcher};
-    String token;
+    public static final String[] TABS={"NOTICIAS","MI EQUIPO","POSICIONES","CALENDARIO"};
     public SimplePagerAdapter(Fragment f){
         this.f=f;
     }
@@ -25,7 +25,7 @@ public class SimplePagerAdapter extends PagerAdapter {
      */
     @Override
     public int getCount() {
-        return imageResId.length-1;
+        return TABS.length;
     }
 
     /**
@@ -41,13 +41,8 @@ public class SimplePagerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        Drawable image = f.getResources().getDrawable(imageResId[position]);
-        image.setBounds(0, 0, image.getIntrinsicWidth()*3/2, image.getIntrinsicHeight()*3/2);
-        SpannableString sb = new SpannableString(" ");
-        ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BASELINE);
-        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        return sb;
+        return TABS[position];
     }
     // END_INCLUDE (pageradapter_getpagetitle)
 
@@ -56,6 +51,9 @@ public class SimplePagerAdapter extends PagerAdapter {
         // Inflate a new layout from our resources
         PageBuilder builder = PageBuilder.getBuilder();
         View view=builder.getPage(f,container,position);
+
+
+
         return view;
     }
 
