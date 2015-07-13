@@ -100,4 +100,10 @@ public class DataBaseManager {
         else
             return false;
     }
+
+    public List getPosGrid(Context context) {
+        SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(context).getReadableDatabase();
+        //db.execSQL();
+        return null;
+    }
 }

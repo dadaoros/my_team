@@ -14,7 +14,6 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
     public static final int LOADCODE = 0;
-    SwipeRefreshLayout refreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +27,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        refreshLayout= (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initiateRefresh();
-            }
-        });
     }
     private void initComponents(Bundle savedInstanceState) {
 
@@ -47,31 +39,6 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void initiateRefresh() {
-
-        new AsyncTask<Void, Void, String>(){
-            @Override
-            protected String doInBackground(Void... params) {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                refreshLayout.setRefreshing(false);
-            }
-
-
-
-        }.execute();
-
-
-
-    }
 
 
     @Override

@@ -3,6 +3,7 @@ package com.mugen.myteam;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,31 @@ public class PageBuilder {
     private PageBuilder(){
 
     }
+    private void initiateRefresh(final SwipeRefreshLayout refreshLayout) {
 
+        new AsyncTask<Void, Void, String>(){
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                refreshLayout.setRefreshing(false);
+            }
+
+
+
+        }.execute();
+
+
+
+    }
     public View getPage(Fragment activity, ViewGroup container, int position) {
         View view = null;
         AlmacenSQLite.getAlmacenInstance(activity.getActivity());
@@ -43,12 +68,21 @@ public class PageBuilder {
                 ListView listaEquipos = (ListView) activity.getActivity().findViewById(R.id.lista_equipos);
                 final ProgressDialog progressDialog = new MillosProgressDialog(activity.getActivity());
 
+
+                final SwipeRefreshLayout refreshLayout= (SwipeRefreshLayout) activity.getActivity().findViewById(R.id.refresh_layout);
+                refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        initiateRefresh(refreshLayout);
+                    }
+                });
+
                 Lock lock =new Lock(progressDialog);
-                Log.d("Estado","Obtuvo seguro 2");
+                Log.d("Estado", "Obtuvo seguro 2");
 
                 //Hilo que Intenta Obtener informacion de la API
                 ApiManager apiManager = new ApiManagerShadow();
-                apiManager.setHandler(new DownloadTeamsHandler(lock,activity.getActivity()));
+                apiManager.setHandler(new DownloadTeamsHandler(lock, activity.getActivity()));
                 //Hilo que intenta obtener y actualizar lista desde la base de datos
                 ListHandler h = new ListHandler(listaEquipos);
                 h.setLock(lock);
