@@ -1,6 +1,5 @@
 package com.mugen.myteam;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,27 +9,25 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mugen.myteam.ApiManager.ApiManager;
-import com.mugen.myteam.ApiManager.ApiManagerShadow;
-import com.mugen.myteam.ApiManager.DownloadTeamsHandler;
-import com.mugen.myteam.DB.AlmacenSQLite;
+
+import com.mugen.myteam.FragmentTabs.PositionListFragment;
+import com.mugen.myteam.FragmentTabs.TeamsListFragment;
 
 import java.util.List;
 
 /**
  * Created by ORTEGON on 21/05/2015.
  */
-public class PageBuilder {
-    private static PageBuilder factory=null;
-    public static PageBuilder getBuilder(){
+public class FragmentPageFactory {
+    private static FragmentPageFactory factory=null;
+    public static synchronized FragmentPageFactory getFactory(){
         if(factory==null){
-            factory=new PageBuilder();
+            factory=new FragmentPageFactory();
         }
         return factory;
     }
-    private PageBuilder(){
+    private FragmentPageFactory(){ }
 
-    }
     private void initiateRefresh(final SwipeRefreshLayout refreshLayout) {
 
         new AsyncTask<Void, Void, String>(){
@@ -56,42 +53,16 @@ public class PageBuilder {
 
 
     }
-    public View getPage(Fragment activity, ViewGroup container, int position) {
+    public View getFragmentPage(Fragment activity, ViewGroup container, int position) {
         View view = null;
-        AlmacenSQLite.getAlmacenInstance(activity.getActivity());
+
         switch (position) {
             case 0:
 
-                view = activity.getActivity().getLayoutInflater().inflate(R.layout.pos_table, container, false);
-                container.addView(view);
-
-                ListView listaEquipos = (ListView) activity.getActivity().findViewById(R.id.lista_equipos);
-                final ProgressDialog progressDialog = new MillosProgressDialog(activity.getActivity());
-
-
-                final SwipeRefreshLayout refreshLayout= (SwipeRefreshLayout) activity.getActivity().findViewById(R.id.refresh_layout);
-                refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        initiateRefresh(refreshLayout);
-                    }
-                });
-
-                Lock lock =new Lock(progressDialog);
-                Log.d("Estado", "Obtuvo seguro 2");
-
-                //Hilo que Intenta Obtener informacion de la API
-                ApiManager apiManager = new ApiManagerShadow();
-                apiManager.setHandler(new DownloadTeamsHandler(lock, activity.getActivity()));
-                //Hilo que intenta obtener y actualizar lista desde la base de datos
-                ListHandler h = new ListHandler(listaEquipos);
-                h.setLock(lock);
-
-                h.execute();
-                apiManager.execute(ApiManager.URL_TEAMS);
 
 
                 break;
+
             case 1:
                 view = activity.getActivity().getLayoutInflater().inflate(R.layout.calendar, container, false);
                 container.addView(view);
@@ -105,6 +76,20 @@ public class PageBuilder {
         }
         return view;
     }
+
+    public Fragment getFragmentPage(int position) {
+        Fragment fragment = null;
+        switch (position) {
+            case 1:
+                fragment= TeamsListFragment.newInstance();
+                break;
+            default:
+                fragment= PositionListFragment.newInstance();
+                break;
+        }
+        return fragment;
+    }
+
     public class ListHandler extends AsyncTask<Void,Void,List>{
 
         View view;

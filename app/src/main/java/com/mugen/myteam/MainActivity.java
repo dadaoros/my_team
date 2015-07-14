@@ -14,15 +14,15 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
     public static final int LOADCODE = 0;
+    public static final int NO_INTERNET=2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent i = new Intent(this,LoaderActivity.class);
-        startActivityForResult(i, 0);
-
-        initComponents(savedInstanceState);
-
+        if(savedInstanceState==null) {
+            Intent i = new Intent(this, LoaderActivity.class);
+            startActivityForResult(i, 0);
+        }
     }
     @Override
     protected void onResume(){
@@ -66,6 +66,14 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode==LOADCODE){
+            if(resultCode==RESULT_CANCELED)
+                this.finish();
+            else
+                new Handler().post(new Runnable() {
+                    public void run() {
+                        initComponents(null);
+                    }
+                });
 
         }
 

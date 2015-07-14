@@ -12,7 +12,7 @@ public class Lock {
         progressDialog=null;
         ready=false;
     }
-    Lock(ProgressDialog progressDialog){
+    public Lock(ProgressDialog progressDialog){
         this.progressDialog=progressDialog;
         progressDialog.setTitle("Obteniendo datos del Servidor");
         progressDialog.show();

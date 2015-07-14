@@ -18,11 +18,9 @@ package com.mugen.myteam;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +37,7 @@ public class SlidingTabsBasicFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sample, container, false);
+        return inflater.inflate(R.layout.fragment_container, container, false);
     }
 
 
@@ -49,12 +47,34 @@ public class SlidingTabsBasicFragment extends Fragment{
         // BEGIN_INCLUDE (setup_viewpager)
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mViewPager.setAdapter(new SimplePagerAdapter(this));
+        mViewPager.setAdapter(new PagerAdapter(getChildFragmentManager()));
+
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setCustomTabView(R.layout.custom_tab, 0);
         mSlidingTabLayout.setViewPager(mViewPager);
-        // END_INCLUDE (setup_slidingtablayout)
     }
+    private class PagerAdapter extends FragmentPagerAdapter {
+        public final String[] TABS = {"NOTICIAS", "POSICIONES", "CALENDARIO", "MI EQUIPO"};
 
+        PagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+       @Override
+        public int getCount() {
+            return TABS.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return TABS[position];
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            FragmentPageFactory factory = FragmentPageFactory.getFactory();
+            return factory.getFragmentPage(position);
+        }
+    }
 
 }

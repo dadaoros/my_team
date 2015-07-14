@@ -76,49 +76,7 @@ public class ApiManagerShadow extends ApiManager {
             "CREATE INDEX \"championships_team_championships__city_id_1dffc6e4e23b31d3_fk_championships_city_id\" ON \"championships_team\" (\"city_id\");\n" +
             "END TRANSACTION;";
 
-    public static final String DBDATASHADOW="BEGIN;\n"+
-            "COPY championships_championship (id, name, logo, year) FROM stdin;\n"+
-            "\\.\n"+
-            "COPY championships_city (id, name) FROM stdin;\n"+
-            "1\tBogotá\n"+
-            "2\tMedellín\n"+
-            "3\tBarranquilla\n"+
-            "4\tCali\n"+
-            "5\tNeiva\n"+
-            "\\.\n"+
-            "COPY championships_team (id, name, logo, founding, stadium, country, president, website, city_id) FROM stdin;\n"+
-            "3\tAtlético Nacional\tf3.jpg\t1947-03-07\tAtanasio Girardot\tCO\tVíctor Marulanda\twww.atlnacional.com.co\t2\n"+
-            "2\tIndependiente Santa Fe\tf2.jpg\t1941-02-28\tNemesio Camacho\tCO\tCésar Pastrana\twww.independientesantafe.co\t1\n"+
-            "1\tMillonarios\tf1.jpg\t1946-06-18\tNemesio Camacho\tCO\tFelipe Gaitán Tovar\twww.millonarios.com.co\t1\n"+
-            "4\tAtlético Junior\tf4.jpg\t1924-08-07\tMetropolitano Roberto Meléndez\tCO\tAlejandro Arteta\tAlejandro Arteta\t3\n"+
-            "5\t América de Cali\tf5.jpg\t1918-12-21\tPascual Guerrero\tCO\tÁlvaro Guerrero\twww.america.com.co\t4\n"+
-            "6\tDeportivo Cali\tf6.jpg\t2015-06-06\t1912-01-01\tCO\tHebert Celín\twww.deporcali.com\t4\n"+
-            "7\tAtletico Huia\tf7.jpg\t2015-06-27\testadio\tCO\tlkshjkshkj\thttp;//jhskjhkjs.com\t5\n"+
-            "\\.\n"+
-            "COPY championships_championship_team (id, championship_id, team_id) FROM stdin;\n"+
-            "\\.\n"+
-            "COPY championships_stadium (id, name, capacity, city_id) FROM stdin;\n"+
-            "1\tEstadio Olímpico Pascual Guerrero\t45000\t4\n"+
-            "2\tEstadio Nemesio Camacho El Campin\t45000\t1\n"+
-            "3\tEstadio Atanasio Girardot\t45000\t2\n"+
-            "4\tEstadio Metropolitano Roberto Meléndez\t50000\t3\n"+
-            "\\.\n"+
-            "COPY championships_match (id, date, date_number, local_team_id, stadium_id, visitor_team_id) FROM stdin;\n"+
-            "1\t2015-06-07 19:00:00-05\t1\t3\t2\t2\n"+
-            "\\.\n"+
-            "COPY championships_services (id, url, description, has_detail) FROM stdin;\n"+
-            "1\tteams/\tteams: equipos\tt\n"+
-            "2\tteams/all/\tTeam: toda la tabla \tf\n"+
-            "3\tmatches/\tMatch: partidos\tt\n"+
-            "4\tmatches/all/\tMatch: toda la tabla\tf\n"+
-            "5\tchampionships\tchampionships\tt\n"+
-            "6\tchampionships/all/\tchampionships/all/\tf\n"+
-            "7\tstadiums/all/\tstadiums/all/\tf\n"+
-            "8\tcities/all/\tcities/all/\tf\n"+
-            "\\.\n"+
-            "END;\n"+
-            "\n"+
-            "\n";
+
     @Override
     public void execute(String URL) {
         if (URL == URL_TEAMS) {

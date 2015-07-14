@@ -25,12 +25,9 @@ import java.util.List;
 public class DownloadTeamsHandler extends AsyncHttpResponseHandler implements ApiHandler {
     Lock lock;
 
-    public void setCtx(Context ctx) {
-        this.ctx = ctx;
-    }
 
     Context ctx;
-    public DownloadTeamsHandler(Lock lock, FragmentActivity activity) {
+    public DownloadTeamsHandler(Lock lock, Context activity) {
         super();
         this.lock = lock;
         this.ctx = activity;
