@@ -54,29 +54,6 @@ public class FragmentPageFactory {
 
 
     }
-    public View getFragmentPage(Fragment activity, ViewGroup container, int position) {
-        View view = null;
-
-        switch (position) {
-            case 0:
-
-
-
-                break;
-
-            case 1:
-                view = activity.getActivity().getLayoutInflater().inflate(R.layout.calendar, container, false);
-                container.addView(view);
-
-                //new ApiManager().execute();
-                TextView tPrueba = (TextView) activity.getActivity().findViewById(R.id.textView);
-                tPrueba.setText("TPrueba");
-
-                break;
-            // Return the View
-        }
-        return view;
-    }
 
     public Fragment getFragmentPage(int position) {
         Fragment fragment = null;
@@ -94,32 +71,5 @@ public class FragmentPageFactory {
         return fragment;
     }
 
-    public class ListHandler extends AsyncTask<Void,Void,List>{
-
-        View view;
-        private Lock lock;
-
-        protected ListHandler(View v){
-            super();
-            view=v;
-        }
-        public void setLock(Lock lock) { this.lock = lock;}
-        @Override
-        protected void onPreExecute(){
-        }
-        @Override
-        protected void onPostExecute(List teams){
-            TeamListAdapter listAdapter=new TeamListAdapter(teams,view.getContext());
-            ((ListView)view).setAdapter(listAdapter);
-        }
-
-        @Override
-        protected List doInBackground(Void... params) {
-            lock.LoadFromDB();
-            Log.i("DBConsumerState", "free");
-            List teams=new DataBaseManager().getTeams(view.getContext());
-            return teams;
-        }
-    };
 
 }

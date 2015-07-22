@@ -67,6 +67,7 @@ public class ApiManagerShadow extends ApiManager {
         "  PRIMARY KEY (\"id\")\n" +
         "  CONSTRAINT \"championships__city_id_1dffc6e4e23b31d3_fk_championships_city_id\" FOREIGN KEY (\"city_id\") REFERENCES \"championships_city\" (\"id\")\n" +
         ");\n" +
+
         "CREATE INDEX \"championships_match_championships_match_aadf6262\" ON \"championships_match\" (\"local_team_id\");\n" +
         "CREATE INDEX \"championships_match_championships_match_5c1e67db\" ON \"championships_match\" (\"stadium_id\");\n" +
         "CREATE INDEX \"championships_match_championships_match_0fc7cc15\" ON \"championships_match\" (\"visitor_team_id\");\n" +
@@ -74,7 +75,13 @@ public class ApiManagerShadow extends ApiManager {
         "CREATE INDEX \"championships_championship_team_championships_championship_team_f6a7ca40\" ON \"championships_championship_team\" (\"team_id\");\n" +
         "CREATE INDEX \"championships_stadium_championships__city_id_3f51b64b94ffb128_fk_championships_city_id\" ON \"championships_stadium\" (\"city_id\");\n" +
         "CREATE INDEX \"championships_team_championships__city_id_1dffc6e4e23b31d3_fk_championships_city_id\" ON \"championships_team\" (\"city_id\");\n" +
-        "END TRANSACTION;";
+        "INSERT INTO \"championships_city\"(\"id\",\"name\") VALUES (1,\"Medellin\");\n"+
+        "INSERT INTO \"championships_city\"(\"id\",\"name\") VALUES (2,\"Cali\");\n"+
+        "INSERT INTO \"championships_city\"(\"id\",\"name\") VALUES (3,\"Envigado\");\n"+
+        "INSERT INTO \"championships_city\"(\"id\",\"name\") VALUES (4,\"Ibague\");\n"+
+        "INSERT INTO \"championships_city\"(\"id\",\"name\") VALUES (5,\"Bogotá\");\n"+
+        "INSERT INTO \"championships_city\"(\"id\",\"name\") VALUES (6,\"Pasto\");\n"+
+            "END TRANSACTION;";
     public static final String UPDATES_SHADOW="[{\"version\":2,\"sql\":\"Segundo SQL\"},{\"version\":3,\"sql\":\"Tercer SQL :)\"}]";
 
     @Override

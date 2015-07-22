@@ -49,7 +49,6 @@ public class DownloadTeamsHandler extends AsyncHttpResponseHandler implements Ap
 
             try {
                 array=new JSONArray(response);
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

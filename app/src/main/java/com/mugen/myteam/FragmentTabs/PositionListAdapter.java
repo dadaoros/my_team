@@ -1,4 +1,4 @@
-package com.mugen.myteam;
+package com.mugen.myteam.FragmentTabs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,14 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.mugen.myteam.R;
+
 import java.util.List;
 
 /**
- * Created by ORTEGON on 22/05/2015.
+ * Created by root on 22/07/15.
  */
-public class TeamListAdapter extends ArrayAdapter {
+public class PositionListAdapter extends ArrayAdapter{
     List teams;
-    public TeamListAdapter(List objects,Context context) {
+    public PositionListAdapter(List objects,Context context) {
         super(context, R.layout.teams_list, objects);
         teams=objects;
     }
@@ -27,5 +29,4 @@ public class TeamListAdapter extends ArrayAdapter {
         nombreEquipo.setText(teams.get(position).toString());
         return view;
     }
-
 }

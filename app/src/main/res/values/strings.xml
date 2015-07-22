@@ -2,7 +2,7 @@
     <string name="app_name">My Team</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Preferencias</string>
     <string name="test_text">Test Text</string>
     <string name="title_activity_loader">LoaderActivity</string>
     <string name="loading_label">Cargando . . .</string>

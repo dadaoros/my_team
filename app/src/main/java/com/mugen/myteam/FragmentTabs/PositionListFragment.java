@@ -1,12 +1,18 @@
 package com.mugen.myteam.FragmentTabs;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.mugen.myteam.DB.AlmacenSQLite;
+import com.mugen.myteam.DataBaseManager;
 import com.mugen.myteam.R;
+
+import java.util.List;
 
 /**
  * Created by root on 13/07/15.
@@ -29,6 +35,8 @@ public class PositionListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+        AlmacenSQLite.getAlmacenInstance(view.getContext());
+
     }
 
 
@@ -42,4 +50,26 @@ public class PositionListFragment extends Fragment {
 
         return f;
     }
+    public class ListHandler extends AsyncTask<Void,Void,List> {
+
+        View view;
+        protected ListHandler(View v){
+            super();
+            view=v;
+        }
+        @Override
+        protected void onPreExecute(){
+        }
+        @Override
+        protected void onPostExecute(List teams){
+            TeamListAdapter listAdapter=new TeamListAdapter(teams,view.getContext());
+            ((ListView)view).setAdapter(listAdapter);
+        }
+
+        @Override
+        protected List doInBackground(Void... params) {
+            List teams=new DataBaseManager().getTeams(view.getContext());
+            return teams;
+        }
+    };
 }

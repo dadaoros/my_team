@@ -20,7 +20,6 @@ import com.mugen.myteam.DataBaseManager;
 import com.mugen.myteam.Lock;
 import com.mugen.myteam.MillosProgressDialog;
 import com.mugen.myteam.R;
-import com.mugen.myteam.TeamListAdapter;
 
 import java.util.List;
 
@@ -48,6 +47,7 @@ public class TeamsListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
+
         AlmacenSQLite.getAlmacenInstance(view.getContext());
         ListView listaEquipos = (ListView) view.findViewById(R.id.lista_equipos);
         final ProgressDialog progressDialog = new MillosProgressDialog(view.getContext());
