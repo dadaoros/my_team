@@ -1,14 +1,34 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.mugen.myteam.FragmentTabs.PosGridFragment"
-    android:background="@android:color/white">
+<Layout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/GridLayout1"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_gravity="center_horizontal"
+android:paddingTop="8dp"
+android:paddingLeft="8dp"
+android:paddingRight="8dp"
+android:paddingBottom="8dp"
+tools:context="com.mugen.myteam.FragmentTabs.PosGridFragment"
+    
+android:background="@android:color/white">
 
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:id="@+id/texto_prueba"
-        android:text="@string/hello_blank_fragment"
-        android:textSize="30sp"/>
-
-</LinearLayout>
+    <TextView android:text="@string/position_label" android:layout_column="0" android:layout_row="0" style="@style/gridheader_text"/>
+    <TextView android:text="@string/team_label" android:layout_column="1" android:layout_row="0" style="@style/gridheader_text" android:layout_gravity="center_horizontal" android:layout_columnWeight="2"/>
+    <TextView android:text="@string/p_jugados_label" android:layout_column="2" android:layout_row="0" style="@style/gridheader_text"/>
+    <TextView android:text="@string/pganados_label" android:layout_column="3" android:layout_row="0" style="@style/gridheader_text"/>
+    <TextView android:text="PE" android:layout_column="4" android:layout_row="0" style="@style/gridheader_text"/>
+    <TextView android:text="PP" android:layout_column="5" android:layout_row="0" style="@style/gridheader_text"/>
+    <TextView android:text="GF" android:layout_column="6" android:layout_row="0" style="@style/gridheader_text"/>
+    <TextView android:text="GC" android:layout_column="7" android:layout_row="0" style="@style/gridheader_text"/>
+    <TextView android:text="DG" android:layout_column="8" android:layout_row="0" style="@style/gridheader_text"/>
+    <TextView android:text="Pts" android:layout_column="9" android:layout_row="0" style="@style/gridheader_text" />
+    <TextView android:text="Millonarios" android:layout_column="1" android:layout_row="1" style="@style/grid_text"/>
+    <TextView android:text="PJ" android:layout_column="0" android:layout_row="1" style="@style/grid_text" />
+    <TextView android:text="0" android:layout_column="2" android:layout_row="1" style="@style/grid_text" />
+    <TextView android:text="PE" android:layout_column="3" android:layout_row="1" style="@style/grid_text"/>
+    <TextView android:text="PP" android:layout_column="4" android:layout_row="1" style="@style/grid_text"/>
+    <TextView android:text="GF" android:layout_column="5" android:layout_row="1" style="@style/grid_text"/>
+    <TextView android:text="GC" android:layout_column="6" android:layout_row="1" style="@style/grid_text"/>
+    <TextView android:text="DG" android:layout_column="7" android:layout_row="1" style="@style/grid_text"/>
+    <TextView android:text="Pts" android:layout_column="8" android:layout_row="1" style="@style/grid_text" />
+</Layout>

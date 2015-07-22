@@ -3,4 +3,8 @@
     <color name="deep_blue">#000238</color>
     <color name="soft_blue">#ff324684</color>
 
+
+    <color name="primary">#ff2c3d74</color>
+    <color name="primary_dark">#000238</color>
+    <color name="accent">#FFFFFF</color>
 </resources>
