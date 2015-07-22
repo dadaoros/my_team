@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.mugen.myteam.FragmentTabs.BlankFragment;
 import com.mugen.myteam.FragmentTabs.PositionListFragment;
 import com.mugen.myteam.FragmentTabs.TeamsListFragment;
 
@@ -80,11 +81,14 @@ public class FragmentPageFactory {
     public Fragment getFragmentPage(int position) {
         Fragment fragment = null;
         switch (position) {
-            case 1:
+            case 0:
                 fragment= TeamsListFragment.newInstance();
                 break;
-            default:
+            case 1:
                 fragment= PositionListFragment.newInstance();
+                break;
+            default:
+                fragment= BlankFragment.newInstance();
                 break;
         }
         return fragment;

@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class MainActivity extends FragmentActivity {
@@ -68,12 +69,15 @@ public class MainActivity extends FragmentActivity {
         if(requestCode==LOADCODE){
             if(resultCode==RESULT_CANCELED)
                 this.finish();
-            else
+            else {
+                if(resultCode==LoaderActivity.NOT_UPDATED)
+                    Toast.makeText(this,"No pudo ser Actualizado",Toast.LENGTH_SHORT);
                 new Handler().post(new Runnable() {
                     public void run() {
                         initComponents(null);
                     }
                 });
+            }
 
         }
 

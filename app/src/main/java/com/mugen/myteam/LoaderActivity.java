@@ -17,10 +17,13 @@ import com.mugen.myteam.ApiManager.ApiManager;
 import com.mugen.myteam.ApiManager.ApiManagerShadow;
 import com.mugen.myteam.ApiManager.DownloadDumpHandler;
 import com.mugen.myteam.ApiManager.DownloadTeamsHandler;
+import com.mugen.myteam.ApiManager.DownloadUpdatesHandler;
 
 
 public class LoaderActivity extends Activity {
 
+    public static final int NOT_UPDATED = 4;
+    public static final String VERSION="0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +37,10 @@ public class LoaderActivity extends Activity {
             apiManager.execute(ApiManager.URL_DUMP);
 
          } else {
-            Intent result = new Intent();
-            setResult(Activity.RESULT_OK, result);
-            finish();
+            DownloadUpdatesHandler handler = new DownloadUpdatesHandler(this);
+            ApiManager apiManager = new ApiManagerShadow();
+            apiManager.setHandler(handler);
+            apiManager.execute(ApiManager.URL_UPDATES+VERSION);
         }
 
     }
