@@ -7,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 
 import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DataBaseManager;
 import com.mugen.myteam.R;
+import com.mugen.myteam.my_layouts.MyTableLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +40,8 @@ public class PositionListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         AlmacenSQLite.getAlmacenInstance(view.getContext());
         loadSpinner(view);
-        new ListHandler(view).execute();
+        MyTableLayout table = (MyTableLayout)view.findViewById(R.id.pos_table);
+        new TableHandler(table).execute();
 
     }
 
@@ -61,25 +62,25 @@ public class PositionListFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
-    private class ListHandler extends AsyncTask<Void,Void,List> {
+    private class TableHandler extends AsyncTask<Void,Void,List> {
 
-        View view;
-        protected ListHandler(View v){
+        MyTableLayout tableLayout;
+        protected TableHandler(MyTableLayout v){
             super();
-            view=v;
+            tableLayout=v;
         }
         @Override
         protected void onPreExecute(){
         }
         @Override
         protected void onPostExecute(List rows){
-            PositionListAdapter listAdapter=new PositionListAdapter(rows,view.getContext());
-            //((ListView)view).setAdapter(listAdapter);
+            PositionListAdapter listAdapter=new PositionListAdapter(rows,tableLayout.getContext());
+            tableLayout.setAdapter(listAdapter);
         }
 
         @Override
         protected List doInBackground(Void... params) {
-            List rows=new DataBaseManager().getTeamRows(view.getContext());
+            List rows=new DataBaseManager().getTeamRows(tableLayout.getContext());
             return rows;
         }
     };

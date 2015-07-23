@@ -14,4 +14,10 @@
     <string name="position_label">#</string>
     <string name="p_jugados_label">PJ</string>
     <string name="pganados_label">PG</string>
+    <string name="pempatados_label">PE</string>
+    <string name="pperdidos_label">PP</string>
+    <string name="gfavor_label">GF</string>
+    <string name="gcontra_label">GC</string>
+    <string name="diferenciagol_label">DG</string>
+    <string name="puntos_label">Pts</string>
 </resources>
