@@ -3,6 +3,7 @@ package com.mugen.myteam.FragmentTabs;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,13 @@ public class PositionListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         AlmacenSQLite.getAlmacenInstance(view.getContext());
         loadSpinner(view);
+        final SwipeRefreshLayout refreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initiateRefresh(refreshLayout);
+            }
+        });
         MyTableLayout table = (MyTableLayout)view.findViewById(R.id.pos_table);
         new TableHandler(table).execute();
 
@@ -61,6 +69,29 @@ public class PositionListFragment extends Fragment {
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(view.getContext(),android.R.layout.simple_spinner_item,list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+    }
+    private void initiateRefresh(final SwipeRefreshLayout refreshLayout) {
+
+        new AsyncTask<Void, Void, String>(){
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                refreshLayout.setRefreshing(false);
+            }
+
+
+
+        }.execute();
+
     }
     private class TableHandler extends AsyncTask<Void,Void,List> {
 
