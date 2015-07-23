@@ -5,10 +5,8 @@ import android.util.AttributeSet;
 import android.widget.ArrayAdapter;
 import android.widget.TableLayout;
 
-import com.mugen.myteam.FragmentTabs.PositionListAdapter;
-
 /**
- * Created by root on 23/07/15.
+ * Created by dadaoros on 23/07/15.
  */
 public class MyTableLayout extends TableLayout{
 

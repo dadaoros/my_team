@@ -13,7 +13,7 @@ import com.mugen.myteam.R;
 import java.util.List;
 
 /**
- * Created by root on 22/07/15.
+ * Created by dadaoros on 22/07/15.
  */
 public class PositionListAdapter extends ArrayAdapter{
     List rows;

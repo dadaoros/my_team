@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by root on 21/07/15.
+ * Created by dadaoros on 21/07/15.
  */
 public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements ApiHandler {
     Context ctx;

@@ -1,7 +1,7 @@
 package com.mugen.myteam.Models;
 
 /**
- * Created by root on 22/07/15.
+ * Created by dadaoros on 22/07/15.
  */
 public class TeamRow {
     private String teamName;

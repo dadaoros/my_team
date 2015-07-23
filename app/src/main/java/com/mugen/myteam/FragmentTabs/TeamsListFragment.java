@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.mugen.myteam.ApiManager.ApiManager;
-import com.mugen.myteam.ApiManager.ApiManagerShadow;
 import com.mugen.myteam.ApiManager.DownloadTeamsHandler;
 import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DataBaseManager;
@@ -109,10 +108,9 @@ public class TeamsListFragment extends Fragment {
         protected List doInBackground(Void... params) {
             lock.LoadFromDB();
             Log.i("DBConsumerState", "free");
-            List teams=new DataBaseManager().getTeams(view.getContext());
-            return teams;
+            return new DataBaseManager().getTeams(view.getContext());
         }
-    };
+    }
     private void initiateRefresh(final SwipeRefreshLayout refreshLayout) {
 
         new AsyncTask<Void, Void, String>(){

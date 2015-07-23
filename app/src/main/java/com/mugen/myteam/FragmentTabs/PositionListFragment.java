@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TableLayout;
 
 import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DataBaseManager;
@@ -19,7 +18,7 @@ import com.mugen.myteam.my_layouts.MyTableLayout;
 import java.util.List;
 
 /**
- * Created by root on 13/07/15.
+ * Created by dadaoros on 13/07/15.
  */
 public class PositionListFragment extends Fragment {
     public PositionListFragment(){
@@ -111,8 +110,7 @@ public class PositionListFragment extends Fragment {
 
         @Override
         protected List doInBackground(Void... params) {
-            List rows=new DataBaseManager().getTeamRows(tableLayout.getContext());
-            return rows;
+            return new DataBaseManager().getTeamRows(tableLayout.getContext());
         }
-    };
+    }
 }

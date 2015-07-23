@@ -1,7 +1,7 @@
 package com.mugen.myteam.Models;
 
 /**
- * Created by root on 21/07/15.
+ * Created by dadaoros on 21/07/15.
  */
 public class Update {
     private int id;

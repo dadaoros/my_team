@@ -20,4 +20,5 @@
     <string name="gcontra_label">GC</string>
     <string name="diferenciagol_label">DG</string>
     <string name="puntos_label">Pts</string>
+    <string name="teamstitle_label">Equipos</string>
 </resources>
