@@ -65,7 +65,7 @@ public class TeamsListFragment extends Fragment {
         Log.d("Estado", "Obtuvo seguro 2");
 
         //Hilo que Intenta Obtener informacion de la API
-        ApiManager apiManager = new ApiManagerShadow();
+        ApiManager apiManager = new ApiManager();
         apiManager.setHandler(new DownloadTeamsHandler(lock, view.getContext()));
         //Hilo que intenta obtener y actualizar lista desde la base de datos
         ListHandler h = new ListHandler(listaEquipos);

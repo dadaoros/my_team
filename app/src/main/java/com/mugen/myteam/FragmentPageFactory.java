@@ -59,7 +59,7 @@ public class FragmentPageFactory {
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment= TeamsListFragment.newInstance();
+                fragment= BlankFragment.newInstance();
                 break;
             case 1:
                 fragment= PositionListFragment.newInstance();
