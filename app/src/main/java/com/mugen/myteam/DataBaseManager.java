@@ -117,58 +117,58 @@ public class DataBaseManager {
         } catch (SQLException e) {
             Log.d("SQLERROR", e.toString());
         }
-        for(int i=0; i<20; i++){
+        for(int i=1; i<=20; i++){
+            int columnaNombreEquipo = c.getColumnIndex("name");
+            int columnaIdEquipo = c.getColumnIndex("team_id");//id de la columna idEQUIPO
+            int columnaEquipoLocal = c.getColumnIndex("local_team_id");
+            int columnaGolesLocal = c.getColumnIndex("local_goals");
+            int columnaGolesVisitante = c.getColumnIndex("visitor_goals");
 
-        }
-        int columnaNombreEquipo = c.getColumnIndex("name");
-        int columnaIdEquipo = c.getColumnIndex("team_id");//id de la columna idEQUIPO
-        int columnaEquipoLocal = c.getColumnIndex("local_team_id");
-        int columnaGolesLocal = c.getColumnIndex("local_goals");
-        int columnaGolesVisitante = c.getColumnIndex("visitor_goals");
-
-        int golesFavorTotal=0,golesContraTotal=0,puntosTotal=0,partidosJugados=0,partidosEmpatados=0,partidosGanados=0,partidosPerdidos=0;
-        String nombreEquipo="";
-        if (c.moveToFirst() == false){
-            Log.d("cursor","vacio");
-        }
-        for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-
-            int idEquipoActual=c.getInt(columnaIdEquipo);
-            if(c.getInt(columnaIdEquipo)==1){
-                nombreEquipo=c.getString(columnaNombreEquipo);
-                partidosJugados++;
-                int equipoLocalId = c.getInt(columnaEquipoLocal);
-                if(idEquipoActual==equipoLocalId){
-                    int golesF=c.getInt(columnaGolesLocal);
-                    int golesC=c.getInt(columnaGolesVisitante);
-                    if(golesF>golesC){
-                        puntosTotal+=3;
-                        partidosGanados++;
-                    }else
-                        if(golesF==golesC){
-                            puntosTotal++;
-                            partidosEmpatados++;
-                        }else partidosPerdidos++;
-                    golesContraTotal+=golesC;
-                    golesFavorTotal+=golesF;
-                }else{
-                    int golesC=c.getInt(columnaGolesLocal);
-                    int golesF=c.getInt(columnaGolesVisitante);
-                    if(golesF>golesC){
-                        puntosTotal+=3;
-                        partidosGanados++;
-                    }else
-                        if(golesF==golesC){
-                            puntosTotal++;
-                            partidosEmpatados++;
-                        }else partidosPerdidos++;
-                    golesContraTotal+=golesC;
-                    golesFavorTotal+=golesF;
-                }
+            int golesFavorTotal=0,golesContraTotal=0,puntosTotal=0,partidosJugados=0,partidosEmpatados=0,partidosGanados=0,partidosPerdidos=0;
+            String nombreEquipo="";
+            if (c.moveToFirst() == false){
+                Log.d("cursor","vacio");
             }
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+
+                int idEquipoActual=c.getInt(columnaIdEquipo);
+                if(c.getInt(columnaIdEquipo)==i){
+                    nombreEquipo=c.getString(columnaNombreEquipo);
+                    partidosJugados++;
+                    int equipoLocalId = c.getInt(columnaEquipoLocal);
+                    if(idEquipoActual==equipoLocalId){
+                        int golesF=c.getInt(columnaGolesLocal);
+                        int golesC=c.getInt(columnaGolesVisitante);
+                        if(golesF>golesC){
+                            puntosTotal+=3;
+                            partidosGanados++;
+                        }else
+                        if(golesF==golesC){
+                            puntosTotal++;
+                            partidosEmpatados++;
+                        }else partidosPerdidos++;
+                        golesContraTotal+=golesC;
+                        golesFavorTotal+=golesF;
+                    }else{
+                        int golesC=c.getInt(columnaGolesLocal);
+                        int golesF=c.getInt(columnaGolesVisitante);
+                        if(golesF>golesC){
+                            puntosTotal+=3;
+                            partidosGanados++;
+                        }else
+                        if(golesF==golesC){
+                            puntosTotal++;
+                            partidosEmpatados++;
+                        }else partidosPerdidos++;
+                        golesContraTotal+=golesC;
+                        golesFavorTotal+=golesF;
+                    }
+                }
+
+            }
+            rows.add(new TeamRow(nombreEquipo,partidosJugados,partidosGanados,partidosPerdidos,partidosEmpatados,golesFavorTotal,golesContraTotal,golesFavorTotal-golesContraTotal,puntosTotal));
 
         }
-        rows.add(new TeamRow(nombreEquipo,partidosJugados,partidosGanados,partidosPerdidos,partidosEmpatados,golesFavorTotal,golesContraTotal,golesFavorTotal-golesContraTotal,puntosTotal));
 
 
         return null;
