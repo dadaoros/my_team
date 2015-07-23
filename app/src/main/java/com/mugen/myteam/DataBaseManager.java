@@ -14,6 +14,7 @@ import android.util.Log;
 import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DB.TeamsDataSource;
 import com.mugen.myteam.Models.Team;
+import com.mugen.myteam.Models.TeamRow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,19 +120,22 @@ public class DataBaseManager {
         for(int i=0; i<20; i++){
 
         }
+        int columnaNombreEquipo = c.getColumnIndex("name");
         int columnaIdEquipo = c.getColumnIndex("team_id");//id de la columna idEQUIPO
         int columnaEquipoLocal = c.getColumnIndex("local_team_id");
         int columnaGolesLocal = c.getColumnIndex("local_goals");
         int columnaGolesVisitante = c.getColumnIndex("visitor_goals");
 
         int golesFavorTotal=0,golesContraTotal=0,puntosTotal=0,partidosJugados=0,partidosEmpatados=0,partidosGanados=0,partidosPerdidos=0;
+        String nombreEquipo="";
         if (c.moveToFirst() == false){
             Log.d("cursor","vacio");
         }
-        //int nameColumn = c.getColumnIndex();
         for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+
             int idEquipoActual=c.getInt(columnaIdEquipo);
             if(c.getInt(columnaIdEquipo)==1){
+                nombreEquipo=c.getString(columnaNombreEquipo);
                 partidosJugados++;
                 int equipoLocalId = c.getInt(columnaEquipoLocal);
                 if(idEquipoActual==equipoLocalId){
@@ -164,6 +168,7 @@ public class DataBaseManager {
             }
 
         }
+        rows.add(new TeamRow(nombreEquipo,partidosJugados,partidosGanados,partidosPerdidos,partidosEmpatados,golesFavorTotal,golesContraTotal,golesFavorTotal-golesContraTotal,puntosTotal));
 
 
         return null;
