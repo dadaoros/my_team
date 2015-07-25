@@ -4,6 +4,7 @@ package com.mugen.myteam.Models;
  * Created by dadaoros on 22/07/15.
  */
 public class TeamRow {
+    private int team_id;
     private String teamName;
     private int gamesPlayed;
     private int gamesWon;
@@ -26,6 +27,12 @@ public class TeamRow {
         this.opponentGoals = opponentGoals;
         this.goalDifference = goalDifference;
         this.points = points;
+    }
+    public TeamRow(int id, String teamName){
+        this.team_id=id;
+        this.teamName=teamName;
+
+
     }
 
 
@@ -64,5 +71,9 @@ public class TeamRow {
     }
     public int getGamesPlayed() {
         return gamesPlayed;
+    }
+
+    public int getTeam_id() {
+        return team_id;
     }
 }

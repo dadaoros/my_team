@@ -8,6 +8,7 @@
     <FrameLayout
         android:id="@+id/content_fragment"
         android:layout_height="0dp"
+        android:background="@color/soft_blue"
         android:layout_width="match_parent"
         android:layout_weight="1"/>
 

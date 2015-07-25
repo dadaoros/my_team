@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DatabaseUtils;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,7 +12,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DB.TeamsDataSource;
 import com.mugen.myteam.LoaderActivity;
-import com.mugen.myteam.Models.Team;
 import com.mugen.myteam.Models.Update;
 
 import org.apache.http.Header;
@@ -61,12 +58,21 @@ public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements 
                 try {
                     obj= (JSONObject) array.get(i);
                     id=obj.getInt("version");
+                    sql=obj.getString("sql");
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.d("JSONEXCEp",e.getMessage());
                 }
+
                 if(id!=0) {
-                    list.add(new Update(id,getQueries()));
+                    try {
+                        DatabaseUtils.createDbFromSqlStatements(ctx, AlmacenSQLite.DB_NAME, AlmacenSQLite.DB_VERSION, sql);
+                    }catch (SQLiteException e){
+                        Log.e("SQL Exception",e.getMessage());
+                    }
+                    int k=0;
+                    //list.add(new Update(id,getQueries()));
                 }
+
 
             }
         }
@@ -83,12 +89,14 @@ public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements 
         }catch (SQLiteException e){
             Log.e("Error 2", e.toString());
         }
+
+
         Intent result = new Intent();
         ((Activity)ctx).setResult(Activity.RESULT_OK, result);
 
     }
 
-    private String[] getQueries() {
+    private String getQueries() {
         return null;
     }
 

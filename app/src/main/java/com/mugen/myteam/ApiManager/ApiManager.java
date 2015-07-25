@@ -12,16 +12,18 @@ public class ApiManager{
     }
 
     private AsyncHttpResponseHandler handler;
+    public static final String IP="http://192.168.0.8/";
+    public static final int PORT=8000;
+
     public static final String URL_TEAMS = "http://192.168.0.8/teams/";
-    public static final String URL_DUMPDATA="http://192.168.0.15:8000/database/data/";
     public static final String URL_DUMP="http://192.168.0.8/database/data/";
-    public static final String URL_UPDATES="http://127.0.0.1:8000/version/";
+    public static final String URL_UPDATES=IP+"version/";
     public void setHandler(AsyncHttpResponseHandler handler) {
         this.handler=handler;
     }
 
     public void execute(String URL) {
-        AsyncHttpClient client=new AsyncHttpClient(8000);
+        AsyncHttpClient client=new AsyncHttpClient(PORT);
         client.get(URL, handler);
 
     }

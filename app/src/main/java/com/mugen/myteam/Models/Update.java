@@ -5,8 +5,8 @@ package com.mugen.myteam.Models;
  */
 public class Update {
     private int id;
-    private String[] queries;
-    public Update(int id,String[] queries){
+    private String queries;
+    public Update(int id,String queries){
         this.id=id;
         this.queries=queries;
     }
@@ -19,11 +19,11 @@ public class Update {
         this.id = id;
     }
 
-    public String[] getQueries() {
+    public String getQueries() {
         return queries;
     }
 
-    public void setQueries(String[] queries) {
+    public void setQueries(String queries) {
         this.queries = queries;
     }
 }

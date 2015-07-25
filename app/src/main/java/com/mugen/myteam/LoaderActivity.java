@@ -32,15 +32,16 @@ public class LoaderActivity extends Activity {
         if (!new DataBaseManager().isInitialized(this)) {
             //El Handler del Hilo Retorna a la actividad principal cuando termina
             DownloadDumpHandler handler = new DownloadDumpHandler(this);
-            ApiManager apiManager = new ApiManagerShadow();
+            ApiManager apiManager = new ApiManager();
             apiManager.setHandler(handler);
             apiManager.execute(ApiManager.URL_DUMP);
 
          } else {
             DownloadUpdatesHandler handler = new DownloadUpdatesHandler(this);
-            ApiManager apiManager = new ApiManagerShadow();
+            ApiManager apiManager = new ApiManager();
             apiManager.setHandler(handler);
-            apiManager.execute(ApiManager.URL_UPDATES+VERSION);
+            //TODO: la version debe ser consultada dinamicamente
+            apiManager.execute(ApiManager.URL_UPDATES+1437683135);
         }
 
     }
