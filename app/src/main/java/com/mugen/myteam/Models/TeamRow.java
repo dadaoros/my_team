@@ -3,7 +3,7 @@ package com.mugen.myteam.Models;
 /**
  * Created by dadaoros on 22/07/15.
  */
-public class TeamRow {
+public class TeamRow implements Comparable<TeamRow>{
     private int team_id;
     private String teamName;
     private int gamesPlayed;
@@ -75,5 +75,13 @@ public class TeamRow {
 
     public int getTeam_id() {
         return team_id;
+    }
+
+    @Override
+    public int compareTo(TeamRow row) {
+        if(points==row.getPoints())
+            return new Integer(goalDifference).compareTo(row.getGoalDifference());
+        else
+            return new Integer(points).compareTo(row.getPoints());
     }
 }

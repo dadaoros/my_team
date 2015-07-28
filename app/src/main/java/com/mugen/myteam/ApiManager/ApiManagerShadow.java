@@ -38,6 +38,8 @@ public class ApiManagerShadow extends ApiManager {
             ");\n" +
             "INSERT INTO \"championships_championship_team\" VALUES (1,42,5,1);\n" +
             "INSERT INTO \"championships_championship_team\" VALUES (2,42,3,1);\n" +
+            "INSERT INTO \"championships_championship_team\" VALUES (3,42,4,1);\n" +
+
             "CREATE TABLE \"championships_city\" (\n" +
             "  \"id\" int(11) NOT NULL ,\n" +
             "  \"name\" varchar(59) NOT NULL,\n" +
@@ -65,6 +67,13 @@ public class ApiManagerShadow extends ApiManager {
             "  CONSTRAINT \"champi_visitor_team_id_566ee70f5adef619_fk_championships_team_id\" FOREIGN KEY (\"visitor_team_id\") REFERENCES \"championships_team\" (\"id\")\n" +
             ");\n" +
             "INSERT INTO \"championships_match\" VALUES (2,'2015-07-23 21:43:06',1,3,1,5,3,3,42);\n" +
+            "INSERT INTO \"championships_match\" VALUES (3,'2015-07-23 21:43:06',1,3,1,5,2,0,42);\n" +
+            "INSERT INTO \"championships_match\" VALUES (4,'2015-07-23 21:43:06',1,3,1,5,2,3,42);\n" +
+            "INSERT INTO \"championships_match\" VALUES (5,'2015-07-23 21:43:06',1,3,1,4,0,0,42);\n" +
+            "INSERT INTO \"championships_match\" VALUES (6,'2015-07-23 21:43:06',1,5,1,4,1,1,42);\n" +
+
+
+
             "CREATE TABLE \"championships_services\" (\n" +
             "  \"id\" int(11) NOT NULL ,\n" +
             "  \"url\" varchar(20) NOT NULL,\n" +

@@ -37,7 +37,7 @@ public class PositionListAdapter extends ArrayAdapter{
         TextView diferenciaGoles=(TextView)view.findViewById(R.id.pt_dg);
         TextView puntos=(TextView)view.findViewById(R.id.pt_pts);
 
-        posicion.setText("1");
+        posicion.setText(String.valueOf(position+1));
         nombreEquipo.setText(((TeamRow)rows.get(position)).getTeamName());
         partidosJugados.setText(String.valueOf(((TeamRow) rows.get(position)).getGamesPlayed()));
         partidosGanados.setText(String.valueOf(((TeamRow) rows.get(position)).getGamesWon()));

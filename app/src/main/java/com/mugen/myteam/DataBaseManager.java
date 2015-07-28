@@ -17,6 +17,8 @@ import com.mugen.myteam.Models.Team;
 import com.mugen.myteam.Models.TeamRow;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -144,7 +146,7 @@ public class DataBaseManager {
         if(c!=null && ids!=null) {
             for (int i = 0; i < ids.length; i++) {
                 int columnaNombreEquipo = c.getColumnIndex("name");
-                int columnaIdEquipo = c.getColumnIndex("team_id");//id de la columna idEQUIPO
+                int columnaIdEquipo = c.getColumnIndex("team_id");
                 int columnaEquipoLocal = c.getColumnIndex("local_team_id");
                 int columnaGolesLocal = c.getColumnIndex("local_goals");
                 int columnaGolesVisitante = c.getColumnIndex("visitor_goals");
@@ -197,7 +199,7 @@ public class DataBaseManager {
         }
         db.close();
 
-
+        Collections.sort(rows,Collections.reverseOrder());
         return rows;
     }
 
