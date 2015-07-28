@@ -1,12 +1,6 @@
 package com.mugen.myteam;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -32,9 +26,9 @@ public class LoaderActivity extends Activity {
         if (!new DataBaseManager().isInitialized(this)) {
             //El Handler del Hilo Retorna a la actividad principal cuando termina
             DownloadDumpHandler handler = new DownloadDumpHandler(this);
-            ApiManager apiManager = new ApiManager();
+            ApiManager apiManager = new ApiManagerShadow();
             apiManager.setHandler(handler);
-            apiManager.execute(ApiManager.URL_DUMP);
+            apiManager.execute(ApiManagerShadow.URL_DUMP);
 
          } else {
             DownloadUpdatesHandler handler = new DownloadUpdatesHandler(this);

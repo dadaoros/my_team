@@ -52,7 +52,7 @@ public class DataBaseManager {
                     sortOrder                                 // The sort order
             );
 
-            if (c.moveToFirst() == false){
+            if (!c.moveToFirst()){
                 Log.d("cursor","vacio");
             }
 
@@ -61,6 +61,8 @@ public class DataBaseManager {
             for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
                 teams.add( c.getString(nameColumn) );
             }
+
+            c.close();
         }catch (SQLiteException e){
 
         }
@@ -97,10 +99,10 @@ public class DataBaseManager {
     }
     public boolean isInitialized(Context ctx){
         SQLiteDatabase db =AlmacenSQLite.getAlmacenInstance(ctx).getReadableDatabase();
-        if(DatabaseUtils.queryNumEntries(db,TeamsDataSource.VERSIONS_TABLENAME)>0)
-            return true;
-        else
-            return false;
+
+        boolean isInit=DatabaseUtils.queryNumEntries(db, TeamsDataSource.VERSIONS_TABLENAME) > 0;
+
+        return isInit;
     }
     public List getTeamCalendar(Context context){
         String sql="SELECT * FROM championships_championship_team INNER JOIN championships_match ON (team_id=local_team_id OR team_id=visitor_team_id) WHERE team_id=1 AND championship_id=2";
@@ -109,7 +111,28 @@ public class DataBaseManager {
 
     public List getTeamRows(Context context) {
         List rows=new ArrayList();
+
         SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(context).getReadableDatabase();
+        String sql0="SELECT team_id FROM championships_championship_team WHERE championship_id=42 AND c_group=1";
+        Cursor c0=null;
+        int[] ids=null;
+        try {
+            c0=db.rawQuery(sql0, null);
+        } catch (SQLException e) {
+            Log.d("SQLERROR", e.toString());
+        }
+        if(c0!=null) {
+            ids=new int[c0.getCount()];
+            if (!c0.moveToFirst()) {
+                Log.d("cursor", "vacio");
+            }
+            int i=0;
+            for (c0.moveToFirst(); !c0.isAfterLast(); c0.moveToNext()) {
+                ids[i]=c0.getInt(0);
+                i++;
+            }
+            c0.close();
+        }
         String sql="SELECT * FROM championships_championship_team INNER JOIN championships_match ON (team_id=local_team_id OR team_id=visitor_team_id) INNER JOIN championships_team ON(championships_team.id=team_id) WHERE championships_championship_team.championship_id=42 AND championships_match.championship_id=42 AND championships_championship_team.c_group=1";
         Cursor c = null;
 
@@ -118,128 +141,65 @@ public class DataBaseManager {
         } catch (SQLException e) {
             Log.d("SQLERROR", e.toString());
         }
-        for(int i=1; i<=20; i++){
-            int columnaNombreEquipo = c.getColumnIndex("name");
-            int columnaIdEquipo = c.getColumnIndex("team_id");//id de la columna idEQUIPO
-            int columnaEquipoLocal = c.getColumnIndex("local_team_id");
-            int columnaGolesLocal = c.getColumnIndex("local_goals");
-            int columnaGolesVisitante = c.getColumnIndex("visitor_goals");
+        if(c!=null && ids!=null) {
+            for (int i = 0; i < ids.length; i++) {
+                int columnaNombreEquipo = c.getColumnIndex("name");
+                int columnaIdEquipo = c.getColumnIndex("team_id");//id de la columna idEQUIPO
+                int columnaEquipoLocal = c.getColumnIndex("local_team_id");
+                int columnaGolesLocal = c.getColumnIndex("local_goals");
+                int columnaGolesVisitante = c.getColumnIndex("visitor_goals");
 
-            int golesFavorTotal=0,golesContraTotal=0,puntosTotal=0,partidosJugados=0,partidosEmpatados=0,partidosGanados=0,partidosPerdidos=0;
-            String nombreEquipo="";
-            if (c.moveToFirst() == false){
-                Log.d("cursor","vacio");
-            }
-            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                int golesFavorTotal = 0, golesContraTotal = 0, puntosTotal = 0, partidosJugados = 0, partidosEmpatados = 0, partidosGanados = 0, partidosPerdidos = 0;
+                String nombreEquipo = "";
+                if (!c.moveToFirst()) {
+                    Log.d("cursor", "vacio");
+                }
+                for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 
-                int idEquipoActual=c.getInt(columnaIdEquipo);
-                if(c.getInt(columnaIdEquipo)==i){
-                    nombreEquipo=c.getString(columnaNombreEquipo);
-                    partidosJugados++;
-                    int equipoLocalId = c.getInt(columnaEquipoLocal);
-                    if(idEquipoActual==equipoLocalId){
-                        int golesF=c.getInt(columnaGolesLocal);
-                        int golesC=c.getInt(columnaGolesVisitante);
-                        if(golesF>golesC){
-                            puntosTotal+=3;
-                            partidosGanados++;
-                        }else
-                            if(golesF==golesC){
+                    int idEquipoActual = c.getInt(columnaIdEquipo);
+                    if (c.getInt(columnaIdEquipo) == ids[i]) {
+                        nombreEquipo = c.getString(columnaNombreEquipo);
+                        partidosJugados++;
+                        int equipoLocalId = c.getInt(columnaEquipoLocal);
+                        if (idEquipoActual == equipoLocalId) {
+                            int golesF = c.getInt(columnaGolesLocal);
+                            int golesC = c.getInt(columnaGolesVisitante);
+                            if (golesF > golesC) {
+                                puntosTotal += 3;
+                                partidosGanados++;
+                            } else if (golesF == golesC) {
                                 puntosTotal++;
                                 partidosEmpatados++;
-                            }else partidosPerdidos++;
-                                golesContraTotal+=golesC;
-                                golesFavorTotal+=golesF;
-                    }else{
-                        int golesC=c.getInt(columnaGolesLocal);
-                        int golesF=c.getInt(columnaGolesVisitante);
-                        if(golesF>golesC){
-                            puntosTotal+=3;
-                            partidosGanados++;
-                        }else
-                        if(golesF==golesC){
-                            puntosTotal++;
-                            partidosEmpatados++;
-                        }else partidosPerdidos++;
-                        golesContraTotal+=golesC;
-                        golesFavorTotal+=golesF;
+                            } else partidosPerdidos++;
+                            golesContraTotal += golesC;
+                            golesFavorTotal += golesF;
+                        } else {
+                            int golesC = c.getInt(columnaGolesLocal);
+                            int golesF = c.getInt(columnaGolesVisitante);
+                            if (golesF > golesC) {
+                                puntosTotal += 3;
+                                partidosGanados++;
+                            } else if (golesF == golesC) {
+                                puntosTotal++;
+                                partidosEmpatados++;
+                            } else partidosPerdidos++;
+                            golesContraTotal += golesC;
+                            golesFavorTotal += golesF;
+                        }
                     }
+
                 }
+                rows.add(new TeamRow(nombreEquipo, partidosJugados, partidosGanados, partidosPerdidos, partidosEmpatados, golesFavorTotal, golesContraTotal, golesFavorTotal - golesContraTotal, puntosTotal));
 
             }
-            rows.add(new TeamRow(nombreEquipo,partidosJugados,partidosGanados,partidosPerdidos,partidosEmpatados,golesFavorTotal,golesContraTotal,golesFavorTotal-golesContraTotal,puntosTotal));
 
+            c.close();
         }
+        db.close();
 
 
         return rows;
     }
 
-    public List getTeamRows2(Context context) {
-        List rows=new ArrayList();
-        SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(context).getReadableDatabase();
-        String sql="SELECT * FROM championships_championship_team INNER JOIN championships_match ON (team_id=local_team_id OR team_id=visitor_team_id) INNER JOIN championships_team ON(championships_team.id=team_id) WHERE championship_id=2";
-        Cursor c = null;
 
-        try {
-            c=db.rawQuery(sql, null);
-        } catch (SQLException e) {
-            Log.d("SQLERROR", e.toString());
-        }
-        for(int i=1; i<=20; i++){
-            int columnaNombreEquipo = c.getColumnIndex("name");
-            int columnaIdEquipo = c.getColumnIndex("team_id");//id de la columna idEQUIPO
-            int columnaEquipoLocal = c.getColumnIndex("local_team_id");
-            int columnaGolesLocal = c.getColumnIndex("local_goals");
-            int columnaGolesVisitante = c.getColumnIndex("visitor_goals");
-
-            int golesFavorTotal=0,golesContraTotal=0,puntosTotal=0,partidosJugados=0,partidosEmpatados=0,partidosGanados=0,partidosPerdidos=0;
-            String nombreEquipo="";
-            if (c.moveToFirst() == false){
-                Log.d("cursor","vacio");
-            }
-            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-
-                int idEquipoActual=c.getInt(columnaIdEquipo);
-                if(c.getInt(columnaIdEquipo)==i){
-                    nombreEquipo=c.getString(columnaNombreEquipo);
-                    partidosJugados++;
-                    int equipoLocalId = c.getInt(columnaEquipoLocal);
-                    if(idEquipoActual==equipoLocalId){
-                        int golesF=c.getInt(columnaGolesLocal);
-                        int golesC=c.getInt(columnaGolesVisitante);
-                        if(golesF>golesC){
-                            puntosTotal+=3;
-                            partidosGanados++;
-                        }else
-                        if(golesF==golesC){
-                            puntosTotal++;
-                            partidosEmpatados++;
-                        }else partidosPerdidos++;
-                        golesContraTotal+=golesC;
-                        golesFavorTotal+=golesF;
-                    }else{
-                        int golesC=c.getInt(columnaGolesLocal);
-                        int golesF=c.getInt(columnaGolesVisitante);
-                        if(golesF>golesC){
-                            puntosTotal+=3;
-                            partidosGanados++;
-                        }else
-                        if(golesF==golesC){
-                            puntosTotal++;
-                            partidosEmpatados++;
-                        }else partidosPerdidos++;
-                        golesContraTotal+=golesC;
-                        golesFavorTotal+=golesF;
-                    }
-                }
-
-            }
-            rows.add(new TeamRow(nombreEquipo,partidosJugados,partidosGanados,partidosPerdidos,partidosEmpatados,golesFavorTotal,golesContraTotal,golesFavorTotal-golesContraTotal,puntosTotal));
-
-        }
-
-
-        return rows;
-    }
 }

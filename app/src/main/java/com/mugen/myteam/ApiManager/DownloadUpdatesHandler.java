@@ -69,18 +69,10 @@ public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements 
                     }catch (SQLiteException e){
                         Log.e("SQL Exception",e.getMessage());
                     }
-                    int k=0;
-                    //list.add(new Update(id,getQueries()));
                 }
 
 
             }
-        }
-        try {
-            //TODO: ejecuta varias inserciones
-        } catch (SQLiteException e) {
-            Log.e("Error", e.toString());
-
         }
         try {
             //TODO: actualiza la version de la actualización

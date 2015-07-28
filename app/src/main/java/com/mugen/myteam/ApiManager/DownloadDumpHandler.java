@@ -44,8 +44,7 @@ public class DownloadDumpHandler extends AsyncHttpResponseHandler implements Api
             try {
                 DatabaseUtils.createDbFromSqlStatements(ctx, AlmacenSQLite.DB_NAME, AlmacenSQLite.DB_VERSION, response);
             } catch (SQLiteException e) {
-                Log.e("Error", e.toString());
-
+                Log.d("Error", e.toString());
             }
             try {
                 SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(ctx).getWritableDatabase();
