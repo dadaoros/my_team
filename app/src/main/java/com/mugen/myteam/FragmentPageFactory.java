@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 
 import com.mugen.myteam.FragmentTabs.BlankFragment;
+import com.mugen.myteam.FragmentTabs.CalendarFragment;
 import com.mugen.myteam.FragmentTabs.PositionListFragment;
 import com.mugen.myteam.FragmentTabs.TeamsListFragment;
 
@@ -63,6 +64,9 @@ public class FragmentPageFactory {
                 break;
             case 1:
                 fragment= PositionListFragment.newInstance();
+                break;
+            case 2:
+                fragment= CalendarFragment.newInstance();
                 break;
             default:
                 fragment= BlankFragment.newInstance();

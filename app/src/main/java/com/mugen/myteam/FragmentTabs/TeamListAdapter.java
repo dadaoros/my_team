@@ -23,7 +23,7 @@ public class TeamListAdapter extends ArrayAdapter {
     @Override
     public View getView(int position,View view, ViewGroup parent){
         if(view==null){
-            view=((Activity)parent.getContext()).getLayoutInflater().inflate(R.layout.tabla_item,null);
+            view=((Activity)parent.getContext()).getLayoutInflater().inflate(R.layout.team_item,null);
         }
         TextView nombreEquipo=(TextView)view.findViewById(R.id.teamname_item);
         nombreEquipo.setText(teams.get(position).toString());

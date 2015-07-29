@@ -16,6 +16,7 @@
             android:layout_height="60dp"
             android:src="@drawable/ic_action_important"/>
         <TextView
+            android:id="@+id/calendar_localteam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="equipo1"
@@ -29,6 +30,7 @@
             android:layout_gravity="center_vertical"/>
 
         <TextView
+            android:id="@+id/calendar_visitorteam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
