@@ -13,6 +13,7 @@ import com.mugen.myteam.R;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ORTEGON on 22/05/2015.
@@ -34,6 +35,7 @@ public class CalendarListAdapter extends ArrayAdapter {
         TextView goles=(TextView)view.findViewById(R.id.calendar_goals_hour);
         TextView hora=(TextView)view.findViewById(R.id.match_hour);
         TextView numeroFecha=(TextView)view.findViewById(R.id.date_number);
+        TextView fecha=(TextView)view.findViewById(R.id.match_date);
 
         equipoLocal.setText(item.getLocalTeamName());
         equipoVisitante.setText(item.getVisitorTeamName());
@@ -44,6 +46,8 @@ public class CalendarListAdapter extends ArrayAdapter {
             SimpleDateFormat formato=new SimpleDateFormat("hh:mm aa");
             hora.setText(formato.format(item.getDateTimePartido().getTime()));
         }
+        SimpleDateFormat f_fecha=new SimpleDateFormat("EEEE, dd 'de' MMMM",new Locale("es","CO"));
+        fecha.setText(f_fecha.format(item.getDateTimePartido()));
         return view;
     }
     @Override

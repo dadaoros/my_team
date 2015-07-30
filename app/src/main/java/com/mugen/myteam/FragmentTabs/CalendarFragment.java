@@ -8,7 +8,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DataBaseManager;
@@ -53,8 +55,16 @@ public class CalendarFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         AlmacenSQLite.getAlmacenInstance(view.getContext());
         ListView lista = (ListView)view.findViewById(R.id.calendar_listview);
+        loadSpinner(view);
         new CalendarHandler(lista).execute();
 
+    }
+    private void loadSpinner(View view){
+        Spinner spinner = (Spinner) view.findViewById(R.id.championship_spinner2);
+        String[] list={"LIGA AGUILA 2015-2"};
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(view.getContext(),android.R.layout.simple_spinner_item,list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
     private class CalendarHandler extends AsyncTask<Void,Void,List> {
 
