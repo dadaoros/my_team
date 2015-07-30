@@ -19,7 +19,7 @@ public class ApiManagerShadow extends ApiManager {
             "  \"year\" int(11) NOT NULL,\n" +
             "  PRIMARY KEY (\"id\")\n" +
             ");\n" +
-            "INSERT INTO \"championships_championship\" VALUES (42,'Apertura Colombia','http://thumb.resfu.com/media/img/flags/44x27/co.png',2015);\n" +
+            "INSERT INTO \"championships_championship\" VALUES (42,'Liga Aguila - I','http://thumb.resfu.com/media/img/flags/44x27/co.png',2015);\n" +
             "INSERT INTO \"championships_championship\" VALUES (50,'Clausura Colombia','http://thumb.resfu.com/media/img/flags/44x27/co.png',2015);\n" +
             "INSERT INTO \"championships_championship\" VALUES (597,'Apertura Colombia - Play Offs','http://thumb.resfu.com/media/img/flags/44x27/co.png',2015);\n" +
             "INSERT INTO \"championships_championship\" VALUES (846,'Copa Colombia','http://thumb.resfu.com/media/img/flags/44x27/co.png',2015);\n" +
@@ -52,13 +52,13 @@ public class ApiManagerShadow extends ApiManager {
             "INSERT INTO \"championships_city\" VALUES (10,'B');\n" +
             "CREATE TABLE \"championships_match\" (\n" +
             "  \"id\" int(11) NOT NULL ,\n" +
-            "  \"date\" datetime NOT NULL,\n" +
+            "  \"match_date\" datetime NOT NULL,\n" +
             "  \"date_number\" int(11) NOT NULL,\n" +
             "  \"local_team_id\" int(11) NOT NULL,\n" +
             "  \"stadium_id\" int(11) NOT NULL,\n" +
             "  \"visitor_team_id\" int(11) NOT NULL,\n" +
-            "  \"local_goals\" int(11) NOT NULL,\n" +
-            "  \"visitor_goals\" int(11) NOT NULL,\n" +
+            "  \"local_goals\" int(11),\n" +
+            "  \"visitor_goals\" int(11),\n" +
             "  \"championship_id\" int(11) NOT NULL,\n" +
             "  PRIMARY KEY (\"id\")\n" +
             "  CONSTRAINT \"D42d8d33d927f7036ba780b6a9992a88\" FOREIGN KEY (\"championship_id\") REFERENCES \"championships_championship\" (\"id\"),\n" +
@@ -66,13 +66,12 @@ public class ApiManagerShadow extends ApiManager {
             "  CONSTRAINT \"champion_stadium_id_5330b18ac038417b_fk_championships_stadium_id\" FOREIGN KEY (\"stadium_id\") REFERENCES \"championships_stadium\" (\"id\"),\n" +
             "  CONSTRAINT \"champi_visitor_team_id_566ee70f5adef619_fk_championships_team_id\" FOREIGN KEY (\"visitor_team_id\") REFERENCES \"championships_team\" (\"id\")\n" +
             ");\n" +
-            "INSERT INTO \"championships_match\" VALUES (2,'2015-07-23 21:43:06',1,3,1,5,3,3,42);\n" +
-            "INSERT INTO \"championships_match\" VALUES (3,'2015-07-23 21:43:06',1,3,1,5,2,0,42);\n" +
-            "INSERT INTO \"championships_match\" VALUES (4,'2015-07-23 21:43:06',1,3,1,5,2,3,42);\n" +
-            "INSERT INTO \"championships_match\" VALUES (5,'2015-07-23 21:43:06',1,3,1,4,0,0,42);\n" +
-            "INSERT INTO \"championships_match\" VALUES (6,'2015-07-23 21:43:06',1,5,1,4,1,1,42);\n" +
-
-
+            "INSERT INTO \"championships_match\" VALUES (2,'2015-05-23 21:43:06',1,3,1,5,3,3,42);\n" +
+            "INSERT INTO \"championships_match\" VALUES (3,'2015-06-23 21:43:06',1,3,1,5,2,0,42);\n" +
+            "INSERT INTO \"championships_match\" VALUES (4,'2015-04-23 21:43:06',1,3,1,5,2,3,42);\n" +
+            "INSERT INTO \"championships_match\" VALUES (5,'2015-03-23 21:43:06',1,3,1,4,0,0,42);\n" +
+            "INSERT INTO \"championships_match\" VALUES (6,'2015-01-23 21:43:06',1,5,1,4,1,1,42);\n" +
+            "INSERT INTO \"championships_match\" (id,match_date,date_number,local_team_id,stadium_id,visitor_team_id,championship_id) " +"VALUES (7,'2015-07-23 21:43:06',2,5,1,3,42);\n"+
 
             "CREATE TABLE \"championships_services\" (\n" +
             "  \"id\" int(11) NOT NULL ,\n" +
@@ -98,9 +97,9 @@ public class ApiManagerShadow extends ApiManager {
             "  PRIMARY KEY (\"id\")\n" +
             "  CONSTRAINT \"championships__city_id_1dffc6e4e23b31d3_fk_championships_city_id\" FOREIGN KEY (\"city_id\") REFERENCES \"championships_city\" (\"id\")\n" +
             ");\n" +
-            "INSERT INTO \"championships_team\" VALUES (3,'Millonarios F. C','f1.jpg',2);\n" +
-            "INSERT INTO \"championships_team\" VALUES (4,'Santa fe','f2.jpg',2);\n" +
-            "INSERT INTO \"championships_team\" VALUES (5,'Alianza Petrolera','f1.jpg',10);\n" +
+            "INSERT INTO \"championships_team\" VALUES (3,'Millonarios','f1.jpg',2);\n" +
+            "INSERT INTO \"championships_team\" VALUES (4,'Santa Fe','f2.jpg',2);\n" +
+            "INSERT INTO \"championships_team\" VALUES (5,'A. Petrolera','f1.jpg',10);\n" +
             "CREATE INDEX \"championships_match_championships_match_aadf6262\" ON \"championships_match\" (\"local_team_id\");\n" +
             "CREATE INDEX \"championships_match_championships_match_5c1e67db\" ON \"championships_match\" (\"stadium_id\");\n" +
             "CREATE INDEX \"championships_match_championships_match_0fc7cc15\" ON \"championships_match\" (\"visitor_team_id\");\n" +

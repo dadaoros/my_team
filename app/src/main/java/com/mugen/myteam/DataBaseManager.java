@@ -9,16 +9,21 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DB.TeamsDataSource;
+import com.mugen.myteam.Models.CalendarItem;
 import com.mugen.myteam.Models.Team;
 import com.mugen.myteam.Models.TeamRow;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -107,8 +112,42 @@ public class DataBaseManager {
         return isInit;
     }
     public List getTeamCalendar(Context context){
-        String sql="SELECT * FROM championships_championship_team INNER JOIN championships_match ON (team_id=local_team_id OR team_id=visitor_team_id) WHERE team_id=1 AND championship_id=2";
-        return null;
+        List rows=new ArrayList();
+        String sql="SELECT championship_id,match_date,date_number,chp.name,localt.logo,visitor.logo,localt.name,local_goals,visitor.name,visitor_goals FROM championships_team AS localt INNER JOIN championships_match AS matcht ON (localt.id=local_team_id) INNER JOIN championships_team AS visitor ON  (visitor.id=visitor_team_id) INNER JOIN championships_championship AS chp ON (chp.id=championship_id)WHERE visitor_team_id=3 OR local_team_id=3";
+        SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(context).getReadableDatabase();
+        Cursor c = null;
+        try{
+            c=db.rawQuery(sql,null);
+        }catch (SQLiteException e){
+            Log.d("SQLERROR", e.toString());
+        }
+        if(c!=null) {
+            String[] names=c.getColumnNames();
+            int columnaEquipoLocal = 6;
+            int columnaEquipoVisitante = 8;
+            //se asignan quemadas en codigo dado que tienen el mismo nombre en el query
+            int columnaNumeroFecha=c.getColumnIndex("date_number");
+            int columnaGolesLocal = c.getColumnIndex("local_goals");
+            int columnaGolesVisitante = c.getColumnIndex("visitor_goals");
+            int columnaHoraFecha = c.getColumnIndex("match_date");
+            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            if (!c.moveToFirst()) {
+                Log.d("cursor", "vacio");
+            }
+
+            for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                Date date = null;
+                try {
+                    date=formatoDeFecha.parse(c.getString(columnaHoraFecha));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                rows.add(new CalendarItem(c.getString(columnaEquipoLocal),c.getString(columnaEquipoVisitante),date,c.getString(columnaNumeroFecha),c.getString(columnaGolesLocal),c.getString(columnaGolesVisitante),false));
+            }
+            c.close();
+        }
+        db.close();
+        return rows;
     }
 
     public List getTeamRows(Context context) {
@@ -120,7 +159,7 @@ public class DataBaseManager {
         int[] ids=null;
         try {
             c0=db.rawQuery(sql0, null);
-        } catch (SQLException e) {
+        } catch (SQLiteException e) {
             Log.d("SQLERROR", e.toString());
         }
         if(c0!=null) {

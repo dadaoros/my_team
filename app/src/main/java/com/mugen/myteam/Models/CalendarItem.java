@@ -1,22 +1,24 @@
 package com.mugen.myteam.Models;
 
+import java.util.Date;
+
 /**
  * Created by dadaoros on 28/07/15.
  */
 public class CalendarItem {
     private String localTeamName;
     private String visitorTeamName;
-    private String horaPartido;
+    private Date dateTimePartido;
     private String fechaPartido;
     private String golesLocal;
 
-    public CalendarItem(String localTeamName, String visitorTeamName, String horaPartido, String fechaPartido, String golesLocal, String golesVisitante, boolean jugado) {
+    public CalendarItem(String localTeamName, String visitorTeamName, Date datetimePartido, String fechaPartido, String golesLocal, String golesVisitante, boolean jugado) {
         this.localTeamName = localTeamName;
         this.visitorTeamName = visitorTeamName;
-        this.horaPartido = horaPartido;
         this.fechaPartido = fechaPartido;
         this.golesLocal = golesLocal;
         this.golesVisitante = golesVisitante;
+        this.dateTimePartido = datetimePartido;
         this.jugado = jugado;
     }
 
@@ -28,8 +30,8 @@ public class CalendarItem {
         return visitorTeamName;
     }
 
-    public String getHoraPartido() {
-        return horaPartido;
+    public Date getDateTimePartido() {
+        return dateTimePartido;
     }
 
     public String getFechaPartido() {
@@ -44,7 +46,7 @@ public class CalendarItem {
         return golesVisitante;
     }
 
-    public boolean isJugado() {
+    public boolean fueJugado() {
         return jugado;
     }
 

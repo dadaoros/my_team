@@ -23,7 +23,4 @@ public class Update {
         return queries;
     }
 
-    public void setQueries(String queries) {
-        this.queries = queries;
-    }
 }

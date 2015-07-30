@@ -2,6 +2,7 @@ package com.mugen.myteam.FragmentTabs;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.mugen.myteam.Models.CalendarItem;
 import com.mugen.myteam.R;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -26,12 +28,30 @@ public class CalendarListAdapter extends ArrayAdapter {
         if(view==null){
             view=((Activity)parent.getContext()).getLayoutInflater().inflate(R.layout.calendar_item,null);
         }
+        CalendarItem item = (CalendarItem)calendarList.get(position);
         TextView equipoLocal=(TextView)view.findViewById(R.id.calendar_localteam);
-        equipoLocal.setText(((CalendarItem)calendarList.get(position)).toString());
-
         TextView equipoVisitante=(TextView)view.findViewById(R.id.calendar_visitorteam);
-        equipoVisitante.setText(((CalendarItem)calendarList.get(position)).toString());
+        TextView goles=(TextView)view.findViewById(R.id.calendar_goals_hour);
+        TextView hora=(TextView)view.findViewById(R.id.match_hour);
+        TextView numeroFecha=(TextView)view.findViewById(R.id.date_number);
+
+        equipoLocal.setText(item.getLocalTeamName());
+        equipoVisitante.setText(item.getVisitorTeamName());
+        numeroFecha.setText("Fecha "+item.getFechaPartido());
+        if(item.getGolesVisitante()!=null)
+            goles.setText(item.getGolesLocal()+" - "+item.getGolesVisitante());
+        else {
+            SimpleDateFormat formato=new SimpleDateFormat("hh:mm aa");
+            hora.setText(formato.format(item.getDateTimePartido().getTime()));
+        }
         return view;
+    }
+    @Override
+    public int getCount(){
+        if(calendarList!=null)
+            return calendarList.size();
+        else
+            return 0;
     }
 
 }
