@@ -50,6 +50,8 @@
                 android:layout_height="wrap_content"
                 android:text="-"
                 android:textSize="20sp"
+                android:textColor="@color/soft_blue"
+                android:textStyle="bold"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"/>
             <TextView

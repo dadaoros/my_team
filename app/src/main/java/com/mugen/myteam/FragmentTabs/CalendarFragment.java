@@ -1,6 +1,7 @@
 package com.mugen.myteam.FragmentTabs;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -61,13 +62,13 @@ public class CalendarFragment extends Fragment {
     }
     private void loadSpinner(View view){
         Spinner spinner = (Spinner) view.findViewById(R.id.championship_spinner2);
-        String[] list={"LIGA AGUILA 2015-2"};
+        String[] list={"TODOS LOS TORNEOS","LIGA AGUILA 2015-2"};
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(view.getContext(),android.R.layout.simple_spinner_item,list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
     private class CalendarHandler extends AsyncTask<Void,Void,List> {
-
+        private Context ctx;
         ListView listView;
         protected CalendarHandler(ListView v){
             super();
@@ -75,6 +76,7 @@ public class CalendarFragment extends Fragment {
         }
         @Override
         protected void onPreExecute(){
+            this.ctx=listView.getContext();
         }
         @Override
         protected void onPostExecute(List rows){
@@ -84,7 +86,7 @@ public class CalendarFragment extends Fragment {
 
         @Override
         protected List doInBackground(Void... params) {
-            return new DataBaseManager().getTeamCalendar(listView.getContext());
+            return new DataBaseManager().getTeamCalendar(ctx);
         }
     }
 
