@@ -41,7 +41,7 @@ public class TeamsDataSource {
         public static final String MATCH_STADIUM="match_stadium";
     }
     public static final String CREATE_TABLE_VERSIONS="CREATE TABLE "+VERSIONS_TABLENAME+OPEN+
-            Versions._ID + " INTEGER PRIMARY KEY,"+
+            Versions._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
             Versions.UPDATE+" "+NUMERIC_TYPE+ CLOSE;
     public static final String CREATE_TABLE_TEAMS="CREATE TABLE "+TEAMS_TABLENAME+OPEN+
             Teams._ID + " INTEGER PRIMARY KEY," +

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements 
     public void onSuccess(int statusCode,org.apache.http.Header[] headers,byte[] bytes){
         JSONArray array=null;
         String response=null;
+        int lastId=0;
         List<Update> list = null;
         try {
             response=new String(bytes, "UTF-8");
@@ -59,6 +61,7 @@ public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements 
                     obj= (JSONObject) array.get(i);
                     id=obj.getInt("version");
                     sql=obj.getString("sql");
+                    if(id>lastId)lastId=id;
                 } catch (JSONException e) {
                     Log.d("JSONEXCEp",e.getMessage());
                 }
@@ -75,9 +78,8 @@ public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements 
             }
         }
         try {
-            //TODO: actualiza la version de la actualización
-            //SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(ctx).getWritableDatabase();
-            //db.execSQL("INSERT INTO " + TeamsDataSource.VERSIONS_TABLENAME + " VALUES (0,1)");
+            SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(ctx).getWritableDatabase();
+            db.execSQL("INSERT INTO " + TeamsDataSource.VERSIONS_TABLENAME +" "+ TeamsDataSource.Versions.UPDATE+ " VALUES ("+String.valueOf(lastId)+")");
         }catch (SQLiteException e){
             Log.e("Error 2", e.toString());
         }
