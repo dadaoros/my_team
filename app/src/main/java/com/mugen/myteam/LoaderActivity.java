@@ -17,7 +17,6 @@ import com.mugen.myteam.ApiManager.DownloadUpdatesHandler;
 public class LoaderActivity extends Activity {
 
     public static final int NOT_UPDATED = 4;
-    public static final String VERSION="0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +31,12 @@ public class LoaderActivity extends Activity {
             apiManager.execute(ApiManagerShadow.URL_DUMP);
 
          } else {
+
             DownloadUpdatesHandler handler = new DownloadUpdatesHandler(this);
             ApiManager apiManager = new ApiManager();
             apiManager.setHandler(handler);
-            //TODO: la version debe ser consultada dinamicamente
-            apiManager.execute(ApiManager.URL_UPDATES+1437683135);
+            String lastUpdate=new DataBaseManager().getLastUpdate(this);
+            apiManager.execute(ApiManager.URL_UPDATES+lastUpdate);
         }
 
     }

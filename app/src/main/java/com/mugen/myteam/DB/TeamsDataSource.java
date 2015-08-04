@@ -12,12 +12,12 @@ public class TeamsDataSource {
 
     public static final String INT_TYPE="integer";
     public static final String STRING_TYPE="text";
-    public static final String NUMERIC_TYPE="numeric";
+    public static final String NUMERIC_TYPE="NUMERIC";
     public static final String OPEN="(";
     public static final String CLOSE=");";
 
     public static abstract class Versions implements BaseColumns{
-        public static final String STATE="state";
+        public static final String UPDATE="update_id";
     }
 
     public static abstract class Teams{
@@ -54,5 +54,5 @@ public class TeamsDataSource {
             Match.MATCH_STADIUM+" "+STRING_TYPE+CLOSE;
     public static final String CREATE_TABLE_VERSIONS="CREATE TABLE "+VERSIONS_TABLENAME+OPEN+
             Versions._ID + " INTEGER PRIMARY KEY,"+
-            Versions.STATE+" "+NUMERIC_TYPE+ CLOSE;
+            Versions.UPDATE+" "+NUMERIC_TYPE+ CLOSE;
 }

@@ -111,6 +111,43 @@ public class DataBaseManager {
 
         return isInit;
     }
+    public String getLastUpdate(Context ctx){
+        String lastUpdate=null;
+        SQLiteDatabase db =AlmacenSQLite.getAlmacenInstance(ctx).getReadableDatabase();
+        String[] projection = {
+                TeamsDataSource.Versions.UPDATE
+        };
+
+// How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                TeamsDataSource.Versions.UPDATE + " DESC";
+        Cursor c = null;
+        try {
+            c=db.query(
+                    TeamsDataSource.VERSIONS_TABLENAME,  // The table to query
+                    projection,                               // The columns to return
+                    null,                                // The columns for the WHERE clause
+                    null,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    sortOrder                                 // The sort order
+            );
+
+            int updateIDColumn = c.getColumnIndex(TeamsDataSource.Versions.UPDATE);
+
+            if (!c.moveToFirst()){
+                Log.d("cursor","vacio");
+            }else{
+                lastUpdate=c.getString(updateIDColumn);
+            }
+
+            c.close();
+        }catch (SQLiteException e){
+            Log.d("ErrorSQL", e.getMessage());
+        }
+        db.close();
+        return lastUpdate;
+    }
     public List getTeamCalendar(Context context){
         List rows=new ArrayList();
         String sql="SELECT championship_id,match_date,date_number,chp.name,localt.logo,visitor.logo,localt.name,local_goals,visitor.name,visitor_goals FROM championships_team AS localt INNER JOIN championships_match AS matcht ON (localt.id=local_team_id) INNER JOIN championships_team AS visitor ON  (visitor.id=visitor_team_id) INNER JOIN championships_championship AS chp ON (chp.id=championship_id)WHERE visitor_team_id=3 OR local_team_id=3";
