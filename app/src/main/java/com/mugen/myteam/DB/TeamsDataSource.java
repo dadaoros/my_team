@@ -15,6 +15,7 @@ public class TeamsDataSource {
     public static final String INT_TYPE="integer";
     public static final String STRING_TYPE="text";
     public static final String NUMERIC_TYPE="NUMERIC";
+    public static final String INNER_JOIN=" INNER JOIN ";
     public static final String OPEN="(";
     public static final String CLOSE=");";
 

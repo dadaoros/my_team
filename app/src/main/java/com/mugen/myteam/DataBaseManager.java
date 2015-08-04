@@ -210,7 +210,7 @@ public class DataBaseManager {
             }
             c0.close();
         }
-        String sql="SELECT * FROM championships_championship_team INNER JOIN championships_match ON (team_id=local_team_id OR team_id=visitor_team_id) INNER JOIN championships_team ON(championships_team.id=team_id) WHERE championships_championship_team.championship_id=42 AND championships_match.championship_id=42 AND championships_championship_team.c_group=1";
+        String sql="SELECT * FROM championships_championship_team "+INNER_JOIN+MATCHES_TABLENAME+" ON (team_id="+Match.LTEAM+" OR team_id="+Match.VTEAM+")"+INNER_JOIN+TEAMS_TABLENAME+" ON("+TEAMS_TABLENAME+".id=team_id) WHERE championships_championship_team.championship_id=42 AND "+MATCHES_TABLENAME+".championship_id=42 AND championships_championship_team.c_group=1";
         Cursor c = null;
 
         try {
