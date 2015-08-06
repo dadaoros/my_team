@@ -2,22 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/GridLayout1"
     tools:context="com.mugen.myteam.FragmentTabs.PosGridFragment"
-    android:background="@color/background_blue"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_width="match_parent">
-    <Spinner
-        android:id="@+id/championship_spinner1"
+    <RelativeLayout
+        android:background="@color/background_blue"
+        android:layout_margin="4dp"
         android:layout_width="match_parent"
-        android:paddingTop="3sp"
-        android:paddingBottom="3sp"
         android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/championship_spinner1"
+            android:layout_width="match_parent"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_height="wrap_content">
 
-    </Spinner>
-    <View
-        android:background="@color/soft_blue"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"/>
+        </Spinner>
+    </RelativeLayout>
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
@@ -30,10 +31,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:paddingTop="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp"
             android:stretchColumns="*"
             android:background="@android:color/white">
 

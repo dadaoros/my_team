@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:padding="3dp">
+    android:padding="3dp"
+    android:clickable="false">
     <TextView
         android:id="@+id/date_number"
         android:layout_width="wrap_content"
