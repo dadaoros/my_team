@@ -15,6 +15,9 @@ import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DB.TeamsDataSource;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
@@ -29,26 +32,40 @@ public class DownloadDumpHandler extends AsyncHttpResponseHandler implements Api
         this.ctx = activity;
     }
 
-
     @Override
     public void onSuccess(int statusCode,org.apache.http.Header[] headers,byte[] bytes){
-
+        JSONArray array = null;
         String response=null;
         try {
             response=new String(bytes, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        try {
+            array=new JSONArray(response);
+        } catch (JSONException e) {
+            Log.d("JSON Error",e.getMessage());
+        }
+        if(array!=null) {
 
-        if(response!=null) {
+            JSONObject obj=null;
+            int version=0;
+            String data="";
             try {
-                DatabaseUtils.createDbFromSqlStatements(ctx, AlmacenSQLite.DB_NAME, AlmacenSQLite.DB_VERSION, response);
+                obj= (JSONObject) array.get(0);
+                version=obj.getInt("version");
+                data=obj.getString("data");
+            } catch (JSONException e) {
+                Log.d("JSONEXCEp",e.getMessage());
+            }
+            try {
+                DatabaseUtils.createDbFromSqlStatements(ctx, AlmacenSQLite.DB_NAME, AlmacenSQLite.DB_VERSION, data);
             } catch (SQLiteException e) {
                 Log.d("Error", e.toString());
             }
             try {
                 SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(ctx).getWritableDatabase();
-                db.execSQL("INSERT INTO " + TeamsDataSource.VERSIONS_TABLENAME + " VALUES (0,1)");
+                db.execSQL("INSERT INTO " + TeamsDataSource.VERSIONS_TABLENAME + " VALUES (0,"+String.valueOf(version)+")");
             } catch (SQLiteException e) {
                 Log.e("Error 2", e.toString());
             }

@@ -79,7 +79,7 @@ public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements 
         }
         try {
             SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(ctx).getWritableDatabase();
-            db.execSQL("INSERT INTO " + TeamsDataSource.VERSIONS_TABLENAME +" "+ TeamsDataSource.Versions.UPDATE+ " VALUES ("+String.valueOf(lastId)+")");
+            db.execSQL("INSERT INTO " + TeamsDataSource.VERSIONS_TABLENAME +" ('"+ TeamsDataSource.Versions.UPDATE+ "') VALUES ("+String.valueOf(lastId)+")");
         }catch (SQLiteException e){
             Log.e("Error 2", e.toString());
         }
