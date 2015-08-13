@@ -82,9 +82,9 @@ public class ApiManagerShadow extends ApiManager {
             "INSERT INTO championships_match VALUES (6,'2015-01-23 21:43:06',3,2,1,5,3,3,42,1);\n" +
             "INSERT INTO championships_match VALUES (7,'2015-01-22 22:09:06',3,3,1,4,5,2,42,1);\n" +
 
-            "INSERT INTO championships_match VALUES (8,'2015-02-01 21:43:06',4,2,1,3,1,1,42,1);\n" +
+            "INSERT INTO championships_match VALUES (8,'2015-02-01 21:43:06',4,2,1,3,1,2,42,1);\n" +
             "INSERT INTO championships_match VALUES (9,'2015-02-01 22:09:06',4,4,1,5,4,2,42,1);\n" +
-            "INSERT INTO championships_match VALUES (10,'2015-02-09 21:43:06',5,5,1,2,1,3,42,1);\n" +
+            "INSERT INTO championships_match VALUES (10,'2015-02-09 21:43:06',5,5,1,2,1,4,42,1);\n" +
             "INSERT INTO championships_match VALUES (11,'2015-02-08 22:09:06',5,3,1,4,3,2,42,1);\n" +
             "INSERT INTO championships_match VALUES (12,'2015-02-16 21:43:06',6,5,1,2,1,3,42,1);\n" +
             "INSERT INTO championships_match VALUES (13,'2015-02-07 22:09:06',6,4,1,3,1,2,42,1);\n" +

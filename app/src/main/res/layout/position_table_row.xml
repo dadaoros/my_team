@@ -5,8 +5,8 @@
     <TextView android:id="@+id/pt_name" android:layout_column="1"  style="@style/grid_text"/>
     <TextView android:id="@+id/pt_pj" android:layout_column="2"  style="@style/grid_text" />
     <TextView android:id="@+id/pt_pg" android:layout_column="3"  style="@style/grid_text"/>
-    <TextView android:id="@+id/pt_pp" android:layout_column="4"  style="@style/grid_text"/>
-    <TextView android:id="@+id/pt_pe" android:layout_column="5"  style="@style/grid_text"/>
+    <TextView android:id="@+id/pt_pe" android:layout_column="4"  style="@style/grid_text"/>
+    <TextView android:id="@+id/pt_pp" android:layout_column="5"  style="@style/grid_text"/>
     <TextView android:id="@+id/pt_gf" android:layout_column="6"  style="@style/grid_text"/>
     <TextView android:id="@+id/pt_gc" android:layout_column="7"  style="@style/grid_text"/>
     <TextView android:id="@+id/pt_dg" android:layout_column="8"  style="@style/grid_text" />

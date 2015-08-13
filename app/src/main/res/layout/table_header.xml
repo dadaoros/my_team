@@ -9,8 +9,8 @@
     <TextView android:text="@string/team_label" style="@style/gridheader_text" />
     <TextView android:text="@string/p_jugados_label" style="@style/gridheader_text"/>
     <TextView android:text="@string/pganados_label" style="@style/gridheader_text"/>
-    <TextView android:text="@string/pperdidos_label" style="@style/gridheader_text"/>
     <TextView android:text="@string/pempatados_label" style="@style/gridheader_text"/>
+    <TextView android:text="@string/pperdidos_label" style="@style/gridheader_text"/>
     <TextView android:text="@string/gfavor_label" style="@style/gridheader_text"/>
     <TextView android:text="@string/gcontra_label" style="@style/gridheader_text"/>
     <TextView android:text="@string/diferenciagol_label" style="@style/gridheader_text"/>
