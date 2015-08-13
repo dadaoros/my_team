@@ -2,6 +2,7 @@ package com.mugen.myteam;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,13 +16,14 @@ import com.mugen.myteam.ApiManager.DownloadUpdatesHandler;
 
 
 public class LoaderActivity extends Activity {
-
+    SwipeRefreshLayout refreshLayout;
     public static final int NOT_UPDATED = 4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActionBar().hide();
         setContentView(R.layout.activity_loader);
+        final SwipeRefreshLayout refreshLayout= (SwipeRefreshLayout) findViewById(R.id.loader_refresh_layout);
 
         if (!new DataBaseManager().isInitialized(this)) {
             //El Handler del Hilo Retorna a la actividad principal cuando termina
@@ -32,7 +34,9 @@ public class LoaderActivity extends Activity {
 
          } else {
 
-            DownloadUpdatesHandler handler = new DownloadUpdatesHandler(this);
+            DownloadUpdatesHandler handler = new DownloadUpdatesHandler(this,this.getLocalClassName());
+            handler.setRefreshLayout(refreshLayout);
+            refreshLayout.setRefreshing(true);;
             ApiManager apiManager = new ApiManager();
             apiManager.setHandler(handler);
             String lastUpdate=new DataBaseManager().getLastUpdate(this);

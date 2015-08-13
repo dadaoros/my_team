@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,9 +30,13 @@ import java.util.List;
  */
 public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements ApiHandler {
     Context ctx;
-    public DownloadUpdatesHandler(Activity activity) {
+    String clientClassName;
+    private SwipeRefreshLayout refreshLayout;
+
+    public DownloadUpdatesHandler(Activity activity, String localClassName) {
         super();
         this.ctx = activity;
+        this.clientClassName=localClassName;
     }
 
 
@@ -99,14 +104,23 @@ public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements 
     {
         Log.d("RESTError", statusCode + " " + error.toString());
         Toast.makeText(ctx, "No se pudo establecer conexión con el Servidor", Toast.LENGTH_LONG).show();
-        Intent intentR = new Intent();
-        ((Activity)ctx).setResult(LoaderActivity.NOT_UPDATED, intentR);
+        if(clientClassName.equals(LoaderActivity.class.getSimpleName())){
+            Intent intentR = new Intent();
+            ((Activity)ctx).setResult(LoaderActivity.NOT_UPDATED, intentR);
 
+        }
 
     }
     @Override
     public void onFinish(){
+        if(clientClassName.equals(LoaderActivity.class.getSimpleName()))
+            ((Activity)ctx).finish();
+        if(refreshLayout!=null)
+            refreshLayout.setRefreshing(false);
+    }
 
-        ((Activity)ctx).finish();
+
+    public void setRefreshLayout(SwipeRefreshLayout refreshLayout) {
+        this.refreshLayout = refreshLayout;
     }
 }

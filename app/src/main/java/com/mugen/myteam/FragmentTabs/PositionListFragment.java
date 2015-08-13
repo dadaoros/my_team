@@ -1,6 +1,7 @@
 package com.mugen.myteam.FragmentTabs;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 
+import com.mugen.myteam.ApiManager.ApiManager;
+import com.mugen.myteam.ApiManager.DownloadUpdatesHandler;
 import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DataBaseManager;
 import com.mugen.myteam.R;
@@ -78,26 +81,13 @@ public class PositionListFragment extends Fragment implements ViewTreeObserver.O
         spinner.setAdapter(adapter);
     }
     private void initiateRefresh(final SwipeRefreshLayout refreshLayout) {
+        DownloadUpdatesHandler handler = new DownloadUpdatesHandler(this.getActivity(), this.getClass().getName());
+        handler.setRefreshLayout(refreshLayout);
+        ApiManager apiManager = new ApiManager();
+        apiManager.setHandler(handler);
+        String lastUpdate=new DataBaseManager().getLastUpdate(this.getActivity());
+        apiManager.execute(ApiManager.URL_UPDATES + lastUpdate);
 
-        new AsyncTask<Void, Void, String>(){
-            @Override
-            protected String doInBackground(Void... params) {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                refreshLayout.setRefreshing(false);
-            }
-
-
-
-        }.execute();
 
     }
 
@@ -118,11 +108,12 @@ public class PositionListFragment extends Fragment implements ViewTreeObserver.O
     }
 
     private class TableHandler extends AsyncTask<Void,Void,List> {
-
+        Context ctx;
         MyTableLayout tableLayout;
         protected TableHandler(MyTableLayout v){
             super();
             tableLayout=v;
+            ctx=v.getContext();
         }
         @Override
         protected void onPreExecute(){
@@ -135,7 +126,7 @@ public class PositionListFragment extends Fragment implements ViewTreeObserver.O
 
         @Override
         protected List doInBackground(Void... params) {
-            return new DataBaseManager().getTeamRows(tableLayout.getContext());
+            return new DataBaseManager().getTeamRows(ctx);
         }
     }
 }
