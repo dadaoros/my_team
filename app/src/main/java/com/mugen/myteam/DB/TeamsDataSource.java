@@ -6,7 +6,8 @@ import android.provider.BaseColumns;
  * Created by ORTEGON on 27/05/2015.
  */
 public class TeamsDataSource {
-
+    public static final int LIGAAGUILA1=42;
+    public static final int LIGAAGUILA2=64;
 
     public static final String TEAMS_TABLENAME="championships_team";
     public static final String MATCHES_TABLENAME="championships_match";

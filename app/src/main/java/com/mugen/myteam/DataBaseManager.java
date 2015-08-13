@@ -146,10 +146,15 @@ public class DataBaseManager {
         db.close();
         return lastUpdate;
     }
-    public List getTeamCalendar(Context context){
+    public List getTeamCalendar(Context context, int campeonato){
         List rows=new ArrayList();
         String my_team_id="3";
-        String sql="SELECT championship_id,match_date,date_number,chp.name,localt.logo,visitor.logo,localt.name,"+Match.LGOALS+",visitor.name,"+Match.VGOALS+" FROM "+ TEAMS_TABLENAME+" AS localt INNER JOIN "+MATCHES_TABLENAME+" AS matcht ON (localt.id="+Match.LTEAM +") INNER JOIN "+TEAMS_TABLENAME+" AS visitor ON  (visitor.id="+Match.VTEAM +") INNER JOIN championships_championship AS chp ON (chp.id=championship_id)WHERE "+Match.VTEAM +"="+my_team_id+" OR "+Match.LTEAM +"="+my_team_id;
+        String filtraCampeonato="";
+        if(campeonato!=0)
+            filtraCampeonato="AND championship_id="+campeonato;
+        //cuando campeonato es cero muestra el calendario de todos los torneos
+
+        String sql="SELECT championship_id,match_date,date_number,chp.name,localt.logo,visitor.logo,localt.name,"+Match.LGOALS+",visitor.name,"+Match.VGOALS+" FROM "+ TEAMS_TABLENAME+" AS localt INNER JOIN "+MATCHES_TABLENAME+" AS matcht ON (localt.id="+Match.LTEAM +") INNER JOIN "+TEAMS_TABLENAME+" AS visitor ON  (visitor.id="+Match.VTEAM +") INNER JOIN championships_championship AS chp ON (chp.id=championship_id)WHERE ("+Match.VTEAM +"="+my_team_id+" OR "+Match.LTEAM +"="+my_team_id+") "+filtraCampeonato ;
         SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(context).getReadableDatabase();
         Cursor c = null;
         try{

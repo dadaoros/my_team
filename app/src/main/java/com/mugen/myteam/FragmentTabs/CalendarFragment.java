@@ -11,11 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.mugen.myteam.ApiManager.ApiManager;
+import com.mugen.myteam.ApiManager.DownloadUpdatesHandler;
 import com.mugen.myteam.DB.AlmacenSQLite;
+import com.mugen.myteam.DB.TeamsDataSource;
 import com.mugen.myteam.DataBaseManager;
 import com.mugen.myteam.R;
 import com.mugen.myteam.my_layouts.MyTableLayout;
@@ -27,7 +31,9 @@ import java.util.List;
  * Use the {@link CalendarFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+    Spinner spinner;
+    ListView lista;
 
     public static CalendarFragment newInstance() {
         CalendarFragment fragment = new CalendarFragment();
@@ -56,25 +62,36 @@ public class CalendarFragment extends Fragment {
     }
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+
+        spinner = (Spinner) view.findViewById(R.id.championship_spinner2);
+        lista = (ListView)view.findViewById(R.id.calendar_listview);
+        final SwipeRefreshLayout refreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+
         AlmacenSQLite.getAlmacenInstance(view.getContext());
-        final ListView lista = (ListView)view.findViewById(R.id.calendar_listview);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initiateRefresh(refreshLayout);
+            }
+        });
         lista.setOnScrollListener(new AbsListView.OnScrollListener() {
             int mLastFirstVisibleItem = 0;
 
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {   }
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (view.getId() == lista.getId()) {
                     final int currentFirstVisibleItem = lista.getFirstVisiblePosition();
-
                     if (currentFirstVisibleItem > mLastFirstVisibleItem) {
                         // getSherlockActivity().getSupportActionBar().hide();
-                        ((Activity)view.getContext()).getActionBar().hide();
+                        ((Activity) view.getContext()).getActionBar().hide();
                     } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
                         // getSherlockActivity().getSupportActionBar().show();
-                        ((Activity)view.getContext()).getActionBar().show();
+                        ((Activity) view.getContext()).getActionBar().show();
                     }
 
                     mLastFirstVisibleItem = currentFirstVisibleItem;
@@ -82,17 +99,65 @@ public class CalendarFragment extends Fragment {
             }
         });
         loadSpinner(view);
-        new CalendarHandler(lista).execute();
+        int championshipSelected=0;
+        switch (spinner.getSelectedItemPosition()){
+            case 1:
+                championshipSelected=TeamsDataSource.LIGAAGUILA1;
+                break;
+            case 2:
+                championshipSelected=TeamsDataSource.LIGAAGUILA2;
+                break;
+            default:
+                championshipSelected=0;
+                break;
+
+        }
+        new CalendarHandler(lista).execute(championshipSelected);
 
     }
     private void loadSpinner(View view){
-        Spinner spinner = (Spinner) view.findViewById(R.id.championship_spinner2);
-        String[] list={"TODOS LOS TORNEOS","LIGA AGUILA 2015-2"};
+        String[] list={"TODOS LOS TORNEOS","LIGA AGUILA 2015-1","LIGA AGUILA 2015-2"};
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(view.getContext(),android.R.layout.simple_spinner_item,list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+        spinner.setSelection(1);
+        //deja seleccionado por defecto la posicion 1 del spinner
     }
-    private class CalendarHandler extends AsyncTask<Void,Void,List> {
+    private void initiateRefresh(final SwipeRefreshLayout refreshLayout) {
+        DownloadUpdatesHandler handler = new DownloadUpdatesHandler(this.getActivity(), this.getClass().getName());
+        handler.setRefreshLayout(refreshLayout);
+        ApiManager apiManager = new ApiManager();
+        apiManager.setHandler(handler);
+        String lastUpdate=new DataBaseManager().getLastUpdate(this.getActivity());
+        apiManager.execute(ApiManager.URL_UPDATES + lastUpdate);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        int championshipSelected=0;
+        switch (position){
+            case 1:
+                championshipSelected=TeamsDataSource.LIGAAGUILA1;
+                break;
+            case 2:
+                championshipSelected=TeamsDataSource.LIGAAGUILA2;
+                break;
+            default:
+                championshipSelected=0;
+                break;
+
+        }
+        new CalendarHandler(lista).execute(championshipSelected);
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    private class CalendarHandler extends AsyncTask<Integer,Void,List> {
         private Context ctx;
         ListView listView;
         protected CalendarHandler(ListView v){
@@ -110,9 +175,11 @@ public class CalendarFragment extends Fragment {
         }
 
         @Override
-        protected List doInBackground(Void... params) {
-            return new DataBaseManager().getTeamCalendar(ctx);
+        protected List doInBackground(Integer... params) {
+            int campeonato=params[0];
+            return new DataBaseManager().getTeamCalendar(ctx,campeonato);
         }
+
     }
 
 
