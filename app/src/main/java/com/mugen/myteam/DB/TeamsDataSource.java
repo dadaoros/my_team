@@ -8,6 +8,7 @@ import android.provider.BaseColumns;
 public class TeamsDataSource {
     public static final int LIGAAGUILA1=42;
     public static final int LIGAAGUILA2=64;
+    public static final int RECLASIFICACION=0;
 
     public static final String TEAMS_TABLENAME="championships_team";
     public static final String MATCHES_TABLENAME="championships_match";

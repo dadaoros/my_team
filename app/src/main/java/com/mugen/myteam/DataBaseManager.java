@@ -191,11 +191,11 @@ public class DataBaseManager {
         return rows;
     }
 
-    public List getTeamRows(Context context) {
+    public List getTeamRows(Context context, int championship) {
         List rows=new ArrayList();
 
         SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(context).getReadableDatabase();
-        String sql0="SELECT team_id FROM championships_championship_team WHERE championship_id=42 AND c_group=1";
+        String sql0="SELECT team_id FROM championships_championship_team WHERE championship_id="+String.valueOf(championship)+" AND c_group=1";
         Cursor c0=null;
         int[] ids=null;
         try {
@@ -215,7 +215,7 @@ public class DataBaseManager {
             }
             c0.close();
         }
-        String sql="SELECT * FROM championships_championship_team "+INNER_JOIN+MATCHES_TABLENAME+" ON (team_id="+Match.LTEAM+" OR team_id="+Match.VTEAM+")"+INNER_JOIN+TEAMS_TABLENAME+" ON("+TEAMS_TABLENAME+".id=team_id) WHERE championships_championship_team.championship_id=42 AND "+MATCHES_TABLENAME+".championship_id=42 AND championships_championship_team.c_group=1";
+        String sql="SELECT * FROM championships_championship_team "+INNER_JOIN+MATCHES_TABLENAME+" ON (team_id="+Match.LTEAM+" OR team_id="+Match.VTEAM+")"+INNER_JOIN+TEAMS_TABLENAME+" ON("+TEAMS_TABLENAME+".id=team_id) WHERE championships_championship_team.championship_id="+String.valueOf(championship)+" AND "+MATCHES_TABLENAME+".championship_id="+String.valueOf(championship)+" AND championships_championship_team.c_group=1";
         Cursor c = null;
 
         try {

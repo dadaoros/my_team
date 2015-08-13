@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -17,6 +18,7 @@ import android.widget.Spinner;
 import com.mugen.myteam.ApiManager.ApiManager;
 import com.mugen.myteam.ApiManager.DownloadUpdatesHandler;
 import com.mugen.myteam.DB.AlmacenSQLite;
+import com.mugen.myteam.DB.TeamsDataSource;
 import com.mugen.myteam.DataBaseManager;
 import com.mugen.myteam.R;
 import com.mugen.myteam.my_layouts.MyTableLayout;
@@ -26,8 +28,9 @@ import java.util.List;
 /**
  * Created by dadaoros on 13/07/15.
  */
-public class PositionListFragment extends Fragment implements ViewTreeObserver.OnScrollChangedListener {
-
+public class PositionListFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+    MyTableLayout table;
+    Spinner spinner;
     public PositionListFragment(){
 
     }
@@ -47,19 +50,35 @@ public class PositionListFragment extends Fragment implements ViewTreeObserver.O
         super.onViewCreated(view, savedInstanceState);
 
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.positionScrollView);
-        //scrollView.setListe
+        final SwipeRefreshLayout refreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        table = (MyTableLayout)view.findViewById(R.id.pos_table);
 
         AlmacenSQLite.getAlmacenInstance(view.getContext());
         loadSpinner(view);
-        final SwipeRefreshLayout refreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        spinner.setOnItemSelectedListener(this);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initiateRefresh(refreshLayout);
             }
         });
-        MyTableLayout table = (MyTableLayout)view.findViewById(R.id.pos_table);
-        new TableHandler(table).execute();
+        int championshipSelected=0;
+        switch (spinner.getSelectedItemPosition()){
+            case 0:
+                championshipSelected= TeamsDataSource.LIGAAGUILA1;
+                break;
+            case 1:
+                championshipSelected=TeamsDataSource.LIGAAGUILA2;
+                break;
+            case 2:
+                championshipSelected=TeamsDataSource.RECLASIFICACION;
+                break;
+            default:
+                championshipSelected=TeamsDataSource.RECLASIFICACION;
+                break;
+
+        }
+        new TableHandler(table).execute(championshipSelected);
 
     }
 
@@ -74,11 +93,14 @@ public class PositionListFragment extends Fragment implements ViewTreeObserver.O
         return f;
     }
     private void loadSpinner(View view){
-        Spinner spinner = (Spinner) view.findViewById(R.id.championship_spinner1);
-        String[] list={"LIGA AGUILA 2015-2"};
+        spinner = (Spinner) view.findViewById(R.id.championship_spinner1);
+        String[] list={"LIGA AGUILA 2015-1","LIGA AGUILA 2015-2","RECLASIFICACIÓN 2015"};
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(view.getContext(),android.R.layout.simple_spinner_item,list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+        //deja seleccionado por defecto la posición 0 del spinner
+
     }
     private void initiateRefresh(final SwipeRefreshLayout refreshLayout) {
         DownloadUpdatesHandler handler = new DownloadUpdatesHandler(this.getActivity(), this.getClass().getName());
@@ -91,23 +113,35 @@ public class PositionListFragment extends Fragment implements ViewTreeObserver.O
 
     }
 
+
     @Override
-    public void onScrollChanged() {
-        float mfloat = ((ScrollView)getActivity().findViewById(R.id.positionScrollView)).getScrollY();
-        ActionBar mActionBar=getActivity().getActionBar();
-        int mActionBarHeight= 0;
-        if (mActionBar != null) {
-            mActionBarHeight = mActionBar.getHeight();
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        int championshipSelected=0;
+        switch (position){
+            case 0:
+                championshipSelected= TeamsDataSource.LIGAAGUILA1;
+                break;
+            case 1:
+                championshipSelected=TeamsDataSource.LIGAAGUILA2;
+                break;
+            case 2:
+                championshipSelected=TeamsDataSource.RECLASIFICACION;
+                break;
+            default:
+                championshipSelected=TeamsDataSource.RECLASIFICACION;
+                break;
+
         }
-        if (mfloat >= mActionBarHeight && mActionBar.isShowing()) {
-            mActionBar.hide();
-        } else if ( mfloat==0 && !mActionBar.isShowing()) {
-            mActionBar.show();
-        }
+        new TableHandler(table).execute(championshipSelected);
 
     }
 
-    private class TableHandler extends AsyncTask<Void,Void,List> {
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    private class TableHandler extends AsyncTask<Integer,Void,List> {
         Context ctx;
         MyTableLayout tableLayout;
         protected TableHandler(MyTableLayout v){
@@ -125,8 +159,9 @@ public class PositionListFragment extends Fragment implements ViewTreeObserver.O
         }
 
         @Override
-        protected List doInBackground(Void... params) {
-            return new DataBaseManager().getTeamRows(ctx);
+        protected List doInBackground(Integer... params) {
+            int championship=params[0];
+            return new DataBaseManager().getTeamRows(ctx,championship);
         }
     }
 }

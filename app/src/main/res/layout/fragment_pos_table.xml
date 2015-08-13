@@ -41,21 +41,7 @@
             android:stretchColumns="*"
             android:background="@android:color/white">
 
-            <TableRow
-                android:background="@color/deep_blue"
-                style="@style/grid_row"
-                android:divider="@drawable/abc_list_divider_mtrl_alpha">
-                <TextView android:text="@string/position_label"  style="@style/gridheader_text"/>
-                <TextView android:text="@string/team_label" style="@style/gridheader_text" />
-                <TextView android:text="@string/p_jugados_label" style="@style/gridheader_text"/>
-                <TextView android:text="@string/pganados_label" style="@style/gridheader_text"/>
-                <TextView android:text="@string/pperdidos_label" style="@style/gridheader_text"/>
-                <TextView android:text="@string/pempatados_label" style="@style/gridheader_text"/>
-                <TextView android:text="@string/gfavor_label" style="@style/gridheader_text"/>
-                <TextView android:text="@string/gcontra_label" style="@style/gridheader_text"/>
-                <TextView android:text="@string/diferenciagol_label" style="@style/gridheader_text"/>
-                <TextView android:text="@string/puntos_label" style="@style/gridheader_text" />
-            </TableRow>
+            <include layout="@layout/table_header"/>
         </com.mugen.myteam.my_layouts.MyTableLayout>
     </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

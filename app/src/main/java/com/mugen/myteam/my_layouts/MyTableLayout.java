@@ -21,7 +21,7 @@ public class MyTableLayout extends TableLayout{
         updateTable();
     }
     public void updateTable(){
-        //this.removeAllViews();
+        this.removeAllViews();
         for(int i=0;i<adapter.getCount();i++){
             this.addView(adapter.getView(i,null,this));
         }

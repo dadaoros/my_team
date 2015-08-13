@@ -23,30 +23,36 @@ public class PositionListAdapter extends ArrayAdapter{
     }
     @Override
     public View getView(int position,View view, ViewGroup parent){
-        if(view==null){
+        if(view==null && position!=0){
             view=((Activity)parent.getContext()).getLayoutInflater().inflate(R.layout.position_table_row,null);
+        }else{
+            if (view==null){
+                view=((Activity)parent.getContext()).getLayoutInflater().inflate(R.layout.table_header,null);
+            }
         }
-        TextView posicion=(TextView)view.findViewById(R.id.pt_pos);
-        TextView partidosJugados=(TextView)view.findViewById(R.id.pt_pj);
-        TextView nombreEquipo=(TextView)view.findViewById(R.id.pt_name);
-        TextView partidosGanados=(TextView)view.findViewById(R.id.pt_pg);
-        TextView partidosPerdidos=(TextView)view.findViewById(R.id.pt_pp);
-        TextView partidosEmpatados=(TextView)view.findViewById(R.id.pt_pe);
-        TextView golesFavor=(TextView)view.findViewById(R.id.pt_gf);
-        TextView golesContra=(TextView)view.findViewById(R.id.pt_gc);
-        TextView diferenciaGoles=(TextView)view.findViewById(R.id.pt_dg);
-        TextView puntos=(TextView)view.findViewById(R.id.pt_pts);
+        if(position!=0) {
+            TextView posicion = (TextView) view.findViewById(R.id.pt_pos);
+            TextView partidosJugados = (TextView) view.findViewById(R.id.pt_pj);
+            TextView nombreEquipo = (TextView) view.findViewById(R.id.pt_name);
+            TextView partidosGanados = (TextView) view.findViewById(R.id.pt_pg);
+            TextView partidosPerdidos = (TextView) view.findViewById(R.id.pt_pp);
+            TextView partidosEmpatados = (TextView) view.findViewById(R.id.pt_pe);
+            TextView golesFavor = (TextView) view.findViewById(R.id.pt_gf);
+            TextView golesContra = (TextView) view.findViewById(R.id.pt_gc);
+            TextView diferenciaGoles = (TextView) view.findViewById(R.id.pt_dg);
+            TextView puntos = (TextView) view.findViewById(R.id.pt_pts);
 
-        posicion.setText(String.valueOf(position+1));
-        nombreEquipo.setText(((TeamRow)rows.get(position)).getTeamName());
-        partidosJugados.setText(String.valueOf(((TeamRow) rows.get(position)).getGamesPlayed()));
-        partidosGanados.setText(String.valueOf(((TeamRow) rows.get(position)).getGamesWon()));
-        partidosPerdidos.setText(String.valueOf(((TeamRow) rows.get(position)).getGamesLost()));
-        partidosEmpatados.setText(String.valueOf(((TeamRow) rows.get(position)).getGamesDrawn()));
-        golesFavor.setText(String.valueOf(((TeamRow) rows.get(position)).getTeamGoals()));
-        golesContra.setText(String.valueOf(((TeamRow) rows.get(position)).getOpponentGoals()));
-        diferenciaGoles.setText(String.valueOf(((TeamRow) rows.get(position)).getGoalDifference()));
-        puntos.setText(String.valueOf(((TeamRow)rows.get(position)).getPoints()));
+            posicion.setText(String.valueOf(position + 1));
+            nombreEquipo.setText(((TeamRow) rows.get(position)).getTeamName());
+            partidosJugados.setText(String.valueOf(((TeamRow) rows.get(position)).getGamesPlayed()));
+            partidosGanados.setText(String.valueOf(((TeamRow) rows.get(position)).getGamesWon()));
+            partidosPerdidos.setText(String.valueOf(((TeamRow) rows.get(position)).getGamesLost()));
+            partidosEmpatados.setText(String.valueOf(((TeamRow) rows.get(position)).getGamesDrawn()));
+            golesFavor.setText(String.valueOf(((TeamRow) rows.get(position)).getTeamGoals()));
+            golesContra.setText(String.valueOf(((TeamRow) rows.get(position)).getOpponentGoals()));
+            diferenciaGoles.setText(String.valueOf(((TeamRow) rows.get(position)).getGoalDifference()));
+            puntos.setText(String.valueOf(((TeamRow) rows.get(position)).getPoints()));
+        }
         return view;
     }
     @Override
