@@ -80,7 +80,10 @@ public class TeamRow implements Comparable<TeamRow>{
     @Override
     public int compareTo(TeamRow row) {
         if(points==row.getPoints())
-            return new Integer(goalDifference).compareTo(row.getGoalDifference());
+            if(goalDifference==row.getGoalDifference())
+                return new Integer(teamGoals).compareTo(row.getTeamGoals());
+            else
+                return new Integer(goalDifference).compareTo(row.getGoalDifference());
         else
             return new Integer(points).compareTo(row.getPoints());
     }

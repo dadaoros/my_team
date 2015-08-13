@@ -22,15 +22,16 @@ public class PositionListAdapter extends ArrayAdapter{
         rows=objects;
     }
     @Override
-    public View getView(int position,View view, ViewGroup parent){
-        if(view==null && position!=0){
+    public View getView(int pos,View view, ViewGroup parent){
+        int position=pos-1;
+        if(view==null && pos!=0){
             view=((Activity)parent.getContext()).getLayoutInflater().inflate(R.layout.position_table_row,null);
         }else{
             if (view==null){
                 view=((Activity)parent.getContext()).getLayoutInflater().inflate(R.layout.table_header,null);
             }
         }
-        if(position!=0) {
+        if(pos!=0) {
             TextView posicion = (TextView) view.findViewById(R.id.pt_pos);
             TextView partidosJugados = (TextView) view.findViewById(R.id.pt_pj);
             TextView nombreEquipo = (TextView) view.findViewById(R.id.pt_name);
@@ -57,6 +58,6 @@ public class PositionListAdapter extends ArrayAdapter{
     }
     @Override
     public int getCount(){
-        return rows.size();
+        return rows.size()+1;
     }
 }
