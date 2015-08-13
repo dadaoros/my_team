@@ -75,29 +75,6 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemSele
                 initiateRefresh(refreshLayout);
             }
         });
-        lista.setOnScrollListener(new AbsListView.OnScrollListener() {
-            int mLastFirstVisibleItem = 0;
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (view.getId() == lista.getId()) {
-                    final int currentFirstVisibleItem = lista.getFirstVisiblePosition();
-                    if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-                        // getSherlockActivity().getSupportActionBar().hide();
-                        ((Activity) view.getContext()).getActionBar().hide();
-                    } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-                        // getSherlockActivity().getSupportActionBar().show();
-                        ((Activity) view.getContext()).getActionBar().show();
-                    }
-
-                    mLastFirstVisibleItem = currentFirstVisibleItem;
-                }
-            }
-        });
         loadSpinner(view);
         int championshipSelected=0;
         switch (spinner.getSelectedItemPosition()){
