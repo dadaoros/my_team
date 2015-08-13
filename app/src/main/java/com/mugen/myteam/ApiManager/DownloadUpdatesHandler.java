@@ -63,7 +63,10 @@ public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements 
     {
         Log.d("RESTError", statusCode + " " + error.toString());
         Toast.makeText(ctx, "No se pudo establecer conexión con el Servidor", Toast.LENGTH_LONG).show();
+        if(refreshLayout!=null)
+            refreshLayout.setRefreshing(false);
         if(clientClassName.equals(LoaderActivity.class.getSimpleName())){
+
             Intent intentR = new Intent();
             ((Activity)ctx).setResult(LoaderActivity.NOT_UPDATED, intentR);
             ((Activity)ctx).finish();
@@ -134,7 +137,7 @@ public class DownloadUpdatesHandler extends AsyncHttpResponseHandler implements 
         protected void onPostExecute(Object obj){
 
             if(clientClassName.equals(LoaderActivity.class.getSimpleName())) {
-
+                Toast.makeText(ctx,"Datos Actualizados",Toast.LENGTH_LONG).show();
                 Intent result = new Intent();
                 ((Activity) ctx).setResult(Activity.RESULT_OK, result);
                 ((Activity) ctx).finish();
