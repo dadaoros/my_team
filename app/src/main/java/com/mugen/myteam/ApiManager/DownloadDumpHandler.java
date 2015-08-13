@@ -60,7 +60,7 @@ public class DownloadDumpHandler extends AsyncHttpResponseHandler implements Api
             }
             try {
                 DatabaseUtils.createDbFromSqlStatements(ctx, AlmacenSQLite.DB_NAME, AlmacenSQLite.DB_VERSION, data);
-            } catch (SQLiteException e) {
+            } catch (Exception e) {
                 Log.d("Error", e.toString());
             }
             try {

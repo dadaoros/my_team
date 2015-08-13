@@ -26,7 +26,7 @@ public class LoaderActivity extends Activity {
         if (!new DataBaseManager().isInitialized(this)) {
             //El Handler del Hilo Retorna a la actividad principal cuando termina
             DownloadDumpHandler handler = new DownloadDumpHandler(this);
-            ApiManager apiManager = new ApiManager();
+            ApiManager apiManager = new ApiManagerShadow(this);
             apiManager.setHandler(handler);
             apiManager.execute(ApiManagerShadow.URL_DUMP);
 

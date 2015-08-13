@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <ScrollView
+        android:id="@+id/positionScrollView"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent">
         <com.mugen.myteam.my_layouts.MyTableLayout

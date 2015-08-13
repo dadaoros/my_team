@@ -1,5 +1,6 @@
 package com.mugen.myteam.FragmentTabs;
 
+import android.app.ActionBar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,7 +8,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import com.mugen.myteam.DB.AlmacenSQLite;
@@ -20,7 +23,8 @@ import java.util.List;
 /**
  * Created by dadaoros on 13/07/15.
  */
-public class PositionListFragment extends Fragment {
+public class PositionListFragment extends Fragment implements ViewTreeObserver.OnScrollChangedListener {
+
     public PositionListFragment(){
 
     }
@@ -38,6 +42,10 @@ public class PositionListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+
+        ScrollView scrollView = (ScrollView) view.findViewById(R.id.positionScrollView);
+        //scrollView.setListe
+
         AlmacenSQLite.getAlmacenInstance(view.getContext());
         loadSpinner(view);
         final SwipeRefreshLayout refreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
@@ -92,6 +100,23 @@ public class PositionListFragment extends Fragment {
         }.execute();
 
     }
+
+    @Override
+    public void onScrollChanged() {
+        float mfloat = ((ScrollView)getActivity().findViewById(R.id.positionScrollView)).getScrollY();
+        ActionBar mActionBar=getActivity().getActionBar();
+        int mActionBarHeight= 0;
+        if (mActionBar != null) {
+            mActionBarHeight = mActionBar.getHeight();
+        }
+        if (mfloat >= mActionBarHeight && mActionBar.isShowing()) {
+            mActionBar.hide();
+        } else if ( mfloat==0 && !mActionBar.isShowing()) {
+            mActionBar.show();
+        }
+
+    }
+
     private class TableHandler extends AsyncTask<Void,Void,List> {
 
         MyTableLayout tableLayout;
