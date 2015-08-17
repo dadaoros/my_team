@@ -30,6 +30,8 @@
             android:layout_height="wrap_content">
                 <ListView
                     android:id="@+id/calendar_listview"
+                    android:dividerHeight="3dp"
+                    android:divider="@color/soft_blue"
                     android:background="#FFFFFF"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

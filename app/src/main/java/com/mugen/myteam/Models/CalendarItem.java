@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by dadaoros on 28/07/15.
  */
-public class CalendarItem {
+public class CalendarItem implements Comparable<CalendarItem>{
     private String localTeamName;
     private String visitorTeamName;
     private Date dateTimePartido;
@@ -52,4 +52,9 @@ public class CalendarItem {
 
     private String golesVisitante;
     private boolean jugado;
+
+    @Override
+    public int compareTo(CalendarItem another) {
+        return dateTimePartido.compareTo(another.getDateTimePartido());
+    }
 }

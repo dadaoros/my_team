@@ -188,6 +188,9 @@ public class DataBaseManager {
             c.close();
         }
         db.close();
+
+        Collections.sort(rows);
+
         return rows;
     }
 
