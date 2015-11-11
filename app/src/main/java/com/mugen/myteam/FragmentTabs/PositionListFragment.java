@@ -161,7 +161,7 @@ public class PositionListFragment extends Fragment implements AdapterView.OnItem
         @Override
         protected List doInBackground(Integer... params) {
             int championship=params[0];
-            return new DataBaseManager().getTeamRows(ctx,championship);
+            return new DataBaseManager().getTeamRows(ctx,championship,TeamsDataSource.G_FIRSTPHASE);
         }
     }
 }
