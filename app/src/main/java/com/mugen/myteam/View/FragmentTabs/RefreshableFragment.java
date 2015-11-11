@@ -52,7 +52,7 @@ public class RefreshableFragment extends Fragment implements ViewOps.Refreshable
     @Override
     public void displayUpdateResult(int resultCode, String message) {
         if(resultCode!= Activity.RESULT_OK)
-            Toast.makeText(getActivityContext(),message,Toast.LENGTH_SHORT);
+            Toast.makeText(getActivityContext(),message,Toast.LENGTH_SHORT).show();
     }
 
     @Override
