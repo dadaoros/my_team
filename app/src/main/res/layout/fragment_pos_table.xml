@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/GridLayout1"
-    tools:context="com.mugen.myteam.FragmentTabs.PosGridFragment"
+    tools:context="com.mugen.myteam.View.FragmentTabs.PosGridFragment"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_width="match_parent">
@@ -27,7 +27,7 @@
         android:id="@+id/positionScrollView"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent">
-        <com.mugen.myteam.my_layouts.MyTableLayout
+        <com.mugen.myteam.View.my_layouts.MyTableLayout
             android:id="@+id/pos_table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:background="@android:color/white">
 
             <include layout="@layout/table_header"/>
-        </com.mugen.myteam.my_layouts.MyTableLayout>
+        </com.mugen.myteam.View.my_layouts.MyTableLayout>
     </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
