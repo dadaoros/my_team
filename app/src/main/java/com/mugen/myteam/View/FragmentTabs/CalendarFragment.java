@@ -19,6 +19,7 @@ import com.mugen.myteam.Presenter.ApiManager.DownloadUpdatesHandler;
 import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DB.TeamsDataSource;
 import com.mugen.myteam.Model.DataBaseManager;
+import com.mugen.myteam.Presenter.CalendarPresenter;
 import com.mugen.myteam.Presenter.MainPresenter;
 import com.mugen.myteam.Presenter.PresenterOps;
 import com.mugen.myteam.R;
@@ -31,10 +32,10 @@ import java.util.List;
  * Use the {@link CalendarFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CalendarFragment extends RefreshableFragment implements AdapterView.OnItemSelectedListener,ViewOps.MainOps {
+public class CalendarFragment extends RefreshableFragment implements AdapterView.OnItemSelectedListener,ViewOps.CalendarOps {
     Spinner spinner;
     ListView lista;
-    PresenterOps.MainOps presenter;
+    PresenterOps.CalendarOps presenter;
     public static CalendarFragment newInstance() {
         CalendarFragment fragment = new CalendarFragment();
         Bundle args = new Bundle();
@@ -52,7 +53,7 @@ public class CalendarFragment extends RefreshableFragment implements AdapterView
         if (getArguments() != null) {
 
         }
-        presenter=new MainPresenter(this);
+        presenter=new CalendarPresenter(this);
         super.setPresenter(presenter);
     }
 
@@ -67,7 +68,6 @@ public class CalendarFragment extends RefreshableFragment implements AdapterView
 
         spinner = (Spinner) view.findViewById(R.id.championship_spinner2);
         lista = (ListView)view.findViewById(R.id.calendar_listview);
-        final SwipeRefreshLayout refreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
 
         AlmacenSQLite.getAlmacenInstance(view.getContext());
 
@@ -91,7 +91,7 @@ public class CalendarFragment extends RefreshableFragment implements AdapterView
                 break;
 
         }
-        new CalendarHandler(lista).execute(championshipSelected);
+        presenter.loadCalendar(championshipSelected);
 
     }
     private void loadSpinner(View view){
@@ -118,8 +118,7 @@ public class CalendarFragment extends RefreshableFragment implements AdapterView
                 break;
 
         }
-        new CalendarHandler(lista).execute(championshipSelected);
-
+        presenter.loadCalendar(championshipSelected);
     }
 
     @Override
@@ -127,31 +126,8 @@ public class CalendarFragment extends RefreshableFragment implements AdapterView
 
     }
 
-
-    private class CalendarHandler extends AsyncTask<Integer,Void,List> {
-        private Context ctx;
-        ListView listView;
-        protected CalendarHandler(ListView v){
-            super();
-            listView=v;
-        }
-        @Override
-        protected void onPreExecute(){
-            this.ctx=listView.getContext();
-        }
-        @Override
-        protected void onPostExecute(List rows){
-            CalendarListAdapter listAdapter=new CalendarListAdapter(rows,listView.getContext());
-            listView.setAdapter(listAdapter);
-        }
-
-        @Override
-        protected List doInBackground(Integer... params) {
-            int campeonato=params[0];
-            return new DataBaseManager().getTeamCalendar(ctx,campeonato);
-        }
-
+    @Override
+    public void displayListUpdated(List rows) {
+        lista.setAdapter(new CalendarListAdapter(rows,getActivityContext()));
     }
-
-
 }

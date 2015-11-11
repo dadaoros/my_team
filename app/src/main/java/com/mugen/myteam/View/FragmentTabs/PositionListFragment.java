@@ -19,6 +19,7 @@ import com.mugen.myteam.DB.AlmacenSQLite;
 import com.mugen.myteam.DB.TeamsDataSource;
 import com.mugen.myteam.Model.DataBaseManager;
 import com.mugen.myteam.Presenter.MainPresenter;
+import com.mugen.myteam.Presenter.PositionListPresenter;
 import com.mugen.myteam.Presenter.PresenterOps;
 import com.mugen.myteam.R;
 import com.mugen.myteam.View.ViewOps;
@@ -29,15 +30,15 @@ import java.util.List;
 /**
  * Created by dadaoros on 13/07/15.
  */
-public class PositionListFragment extends RefreshableFragment implements AdapterView.OnItemSelectedListener,ViewOps.MainOps {
+public class PositionListFragment extends RefreshableFragment implements AdapterView.OnItemSelectedListener,ViewOps.PositionListOps {
     MyTableLayout table;
     Spinner spinner;
-    PresenterOps.MainOps presenter;
+    PresenterOps.PositionListOps presenter;
     public PositionListFragment(){
     }
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter=new MainPresenter(this);
+        presenter=new PositionListPresenter(this);
         super.setPresenter(presenter);
     }
 
@@ -80,13 +81,11 @@ public class PositionListFragment extends RefreshableFragment implements Adapter
                 break;
 
         }
-        new TableHandler(table).execute(championshipSelected);
-
+        presenter.loadList(championshipSelected);
     }
 
     public static PositionListFragment newInstance() {
         PositionListFragment f = new PositionListFragment();
-
         // Supply num input as an argument.
         Bundle args = new Bundle();
         args.putInt("num", 1);
@@ -122,7 +121,7 @@ public class PositionListFragment extends RefreshableFragment implements Adapter
                 break;
 
         }
-        new TableHandler(table).execute(championshipSelected);
+        presenter.loadList(championshipSelected);
 
     }
 
@@ -132,36 +131,8 @@ public class PositionListFragment extends RefreshableFragment implements Adapter
     }
 
     @Override
-    public Context getActivityContext() {
-        return getActivity();
-    }
-
-    @Override
-    public Context getApplicationContext() {
-        return getApplicationContext();
-    }
-
-    private class TableHandler extends AsyncTask<Integer,Void,List> {
-        Context ctx;
-        MyTableLayout tableLayout;
-        protected TableHandler(MyTableLayout v){
-            super();
-            tableLayout=v;
-            ctx=v.getContext();
-        }
-        @Override
-        protected void onPreExecute(){
-        }
-        @Override
-        protected void onPostExecute(List rows){
-            PositionListAdapter listAdapter=new PositionListAdapter(rows,tableLayout.getContext());
-            tableLayout.setAdapter(listAdapter);
-        }
-
-        @Override
-        protected List doInBackground(Integer... params) {
-            int championship=params[0];
-            return new DataBaseManager().getTeamRows(ctx,championship,TeamsDataSource.G_FIRSTPHASE);
-        }
+    public void displayListUpdated(List rows) {
+        PositionListAdapter listAdapter=new PositionListAdapter(rows,getActivityContext());
+        table.setAdapter(listAdapter);
     }
 }

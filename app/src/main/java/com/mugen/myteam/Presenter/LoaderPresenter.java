@@ -28,8 +28,8 @@ public class LoaderPresenter implements PresenterOps.LoaderOps {
     @Override
     public void searchForUpdates() {
         if (!dataBaseManager.isInitialized(mView.get().getActivityContext())) {
-            ApiManager apiManager = new ApiManagerShadow(new DownloadDumpHandler(this));
-            apiManager.execute(ApiManagerShadow.URL_DUMP);
+            ApiManager apiManager = new ApiManager(new DownloadDumpHandler(this));
+            apiManager.execute(ApiManager.URL_DUMP);
         } else {
             mView.get().setRefreshingBar(true);;
             ApiManager apiManager = new ApiManager(new DownloadUpdatesHandler(this));

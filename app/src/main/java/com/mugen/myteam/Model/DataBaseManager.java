@@ -28,7 +28,7 @@ import static com.mugen.myteam.DB.TeamsDataSource.*;
  * Created by ORTEGON on 13/06/2015.
  */
 public class DataBaseManager {
-
+    private final String TAG=this.getClass().getName();
     public List getTeams(Context context){
         SQLiteDatabase db = AlmacenSQLite.getAlmacenInstance(context).getReadableDatabase();
 
@@ -134,14 +134,14 @@ public class DataBaseManager {
             int updateIDColumn = c.getColumnIndex(Versions.UPDATE);
 
             if (!c.moveToFirst()){
-                Log.d("cursor","vacio");
+                Log.d(TAG,"cursor vacio");
             }else{
                 lastUpdate=c.getString(updateIDColumn);
             }
 
             c.close();
         }catch (SQLiteException e){
-            Log.d("ErrorSQL", e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
         db.close();
         return lastUpdate;
@@ -160,7 +160,7 @@ public class DataBaseManager {
         try{
             c=db.rawQuery(sql,null);
         }catch (SQLiteException e){
-            Log.d("SQLERROR", e.toString());
+            Log.e(TAG, e.toString());
         }
         if(c!=null) {
             String[] names=c.getColumnNames();
@@ -204,12 +204,12 @@ public class DataBaseManager {
         try {
             c0=db.rawQuery(sql0, null);
         } catch (SQLiteException e) {
-            Log.d("SQLERROR", e.toString());
+            Log.e(TAG, e.toString());
         }
         if(c0!=null) {
             ids=new int[c0.getCount()];
             if (!c0.moveToFirst()) {
-                Log.d("cursor", "vacio");
+                Log.d(TAG, "cursor vacio");
             }
             int i=0;
             for (c0.moveToFirst(); !c0.isAfterLast(); c0.moveToNext()) {
@@ -224,7 +224,7 @@ public class DataBaseManager {
         try {
             c=db.rawQuery(sql, null);
         } catch (SQLException e) {
-            Log.d("SQLERROR", e.toString());
+            Log.e(TAG, e.toString());
         }
         if(c!=null && ids!=null) {
             for (int i = 0; i < ids.length; i++) {
@@ -237,7 +237,7 @@ public class DataBaseManager {
                 int golesFavorTotal = 0, golesContraTotal = 0, puntosTotal = 0, partidosJugados = 0, partidosEmpatados = 0, partidosGanados = 0, partidosPerdidos = 0;
                 String nombreEquipo = "";
                 if (!c.moveToFirst()) {
-                    Log.d("cursor", "vacio");
+                    Log.d(TAG, "cursor vacio");
                 }
                 for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 
